@@ -40,23 +40,33 @@ class CurrentForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeLocation()
-
-        val viewStateObserver = Observer<CurrentWeather> { viewState ->
-            binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
-            binding.locationName.text = viewState.locationName
-            binding.tempValue.text = formatTempOnDisplay(viewState.forecast.temp, tempDisplaySettingManager.getPreferredUnit())
-            binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
-            val iconId: String = viewState.weather[0].icon
-            binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
-            binding.currentWeatherIcon.isVisible = true
-
-            binding.currentDescriptionText.text = "Forecast: ${viewState.weather[0].description}"
-        }
-        viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
-
-        binding.zipcodeEntryButton.setOnClickListener{
+        binding.zipcodeEntryButton.setOnClickListener {
             navigateToZipcodeEntry()
+        }
+
+        // Check if there is a saved location and display data accordingly
+        if (isLocationEmpty(requireContext())) {
+            binding.currentEmptyStateText.text = getString(R.string.current_empty_state_text)
+        }
+
+        else {
+            observeLocation()
+            val viewStateObserver = Observer<CurrentWeather> { viewState ->
+                binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
+                binding.locationName.text = viewState.locationName
+                binding.tempValue.text = formatTempOnDisplay(
+                    viewState.forecast.temp,
+                    tempDisplaySettingManager.getPreferredUnit()
+                )
+                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
+                val iconId: String = viewState.weather[0].icon
+                binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+                binding.currentWeatherIcon.isVisible = true
+
+                binding.currentDescriptionText.text =
+                    "Forecast: ${viewState.weather[0].description}"
+            }
+            viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }
     }
 
@@ -77,6 +87,8 @@ class CurrentForecastFragment : Fragment() {
 
 //        Create and link an observer for the saved location
         val savedLocationObserver = Observer<Location> {savedLocation ->
+
+
             when (savedLocation) {
 //                reload forecasts with a change in location
                 is Location.Zipcode -> {
