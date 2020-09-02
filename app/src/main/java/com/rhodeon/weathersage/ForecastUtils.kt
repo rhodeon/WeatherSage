@@ -10,11 +10,7 @@ fun formatTempOnDisplay(temp: Float, tempPreferredUnit: TempDisplayUnit): String
     //        tempDisplayUnit - preferred unit stored in settings
 
     return when(tempPreferredUnit) {
-        TempDisplayUnit.CELSIUS -> {
-            val tempCelsius = (temp - 32f) * (5f/9f)
-            String.format("%.2f °C", tempCelsius)
-        }
-
+        TempDisplayUnit.CELSIUS -> String.format("%.2f °C", temp)
         TempDisplayUnit.FAHRENHEIT ->  String.format("%.2f °F", temp)
     }
 }
@@ -32,9 +28,9 @@ fun showChangeUnitDialog(context: Context, tempDisplaySettingManager: TempDispla
             tempDisplaySettingManager.updateSettings(TempDisplayUnit.CELSIUS)
         }
 
-        .setOnDismissListener {
-            Toast.makeText(context, "I will remember this :<", Toast.LENGTH_SHORT).show()
-        }
+//        .setOnDismissListener {
+//            Toast.makeText(context, "I will remember this :<", Toast.LENGTH_SHORT).show()
+//        }
 
     dialogBuilder.show()
 }
@@ -47,4 +43,15 @@ fun isLocationEmpty(context: Context): Boolean {
         return true
     }
     return false
+}
+
+fun getUnitForRequest(context: Context): String {
+    // Returns temperature unit to be used for API query
+    val tempDisplaySettingManager = TempDisplaySettingManager(context)
+    val savedUnit = tempDisplaySettingManager.getPreferredUnit()
+
+    return if (savedUnit == TempDisplayUnit.CELSIUS) {
+        "metric"
+    }
+    else "imperial"     // FAHRENHEIT
 }

@@ -14,7 +14,7 @@ class TempDisplaySettingManager(context: Context) {
     }
 
     fun getPreferredUnit(): TempDisplayUnit {
-        val preferredUnit = preferences.getString("key_preferred_unit", TempDisplayUnit.FAHRENHEIT.name) ?: TempDisplayUnit.FAHRENHEIT.name
+        val preferredUnit = preferences.getString("key_preferred_unit", TempDisplayUnit.CELSIUS.name) ?: TempDisplayUnit.FAHRENHEIT.name
         return TempDisplayUnit.valueOf(preferredUnit)
     }
 

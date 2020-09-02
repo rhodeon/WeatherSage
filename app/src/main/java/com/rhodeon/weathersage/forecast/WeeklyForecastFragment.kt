@@ -79,7 +79,7 @@ class WeeklyForecastFragment : Fragment() {
             when (savedLocation) {
                 is Location.Zipcode -> {
                     binding.weeklyForecastProgress.isVisible = true     // display progress bar while loading state
-                    viewModel.loadWeeklyForecasts(savedLocation.zipcode)    // load weather data
+                    viewModel.loadWeeklyForecasts(savedLocation.zipcode, getUnitForRequest(requireContext()))    // load weather data
                 }
             }
         }
