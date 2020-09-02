@@ -39,7 +39,7 @@ class WeeklyForecastViewModel : ViewModel() {
 
                     call.enqueue(object: Callback<WeeklyForecast> {
                         override fun onFailure(call: Call<WeeklyForecast>, t: Throwable) {
-                            Log.e(WeeklyForecastViewModel::class.java.simpleName, "Error loading weekly forecasts", t)
+                            Log.e(WeeklyForecastViewModel::class.java.simpleName, "Error loading weekly forecast", t)
                         }
 
                         override fun onResponse(
