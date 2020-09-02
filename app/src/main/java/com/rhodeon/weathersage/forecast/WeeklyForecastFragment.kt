@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -43,26 +44,28 @@ class WeeklyForecastFragment : Fragment() {
             navigateToZipcodeEntry()
         }
 
-        // Check if there is a saved location and display data accordingly
-        if (isLocationEmpty(requireContext())) {
-            binding.weeklyEmptyStateText.text = getString(R.string.weekly_empty_state_text)
-        }
+        if (isOnline(requireContext())) {
+            // Check if there is a saved location and display data accordingly
+            if (isLocationEmpty(requireContext())) {
+                binding.weeklyEmptyStateText.text = getString(R.string.weekly_empty_state_text)
+            } else {
+                observeLocation()
 
-        else {
-            observeLocation()
+                val dailyForecastAdapter =
+                    DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
+                        navigateToForecastDetails(forecast)
+                    }
+                binding.forecastView.adapter = dailyForecastAdapter
 
-            val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
-                navigateToForecastDetails(forecast)
+                val viewModelObserver = Observer<WeeklyForecast> { viewState ->
+                    binding.weeklyForecastProgress.isGone =
+                        true    // remove progress bar on loaded state
+                    dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
+                }
+                viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
             }
-            binding.forecastView.adapter = dailyForecastAdapter
-
-            val viewModelObserver = Observer<WeeklyForecast> { viewState ->
-                binding.weeklyForecastProgress.isGone =
-                    true    // remove progress bar on loaded state
-                dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
-            }
-            viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
         }
+        else Toast.makeText(requireContext(), "Error loading weekly forecast\nCheck internet connection", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
