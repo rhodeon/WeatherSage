@@ -21,8 +21,10 @@ class ForecastDetailsViewModel(args: ForecastDetailsFragmentArgs) : ViewModel() 
 
     init {
         _viewState.value = ForecastDetailsViewState(
-            temp = args.temp,
-            tempDescription = args.description
+            maxTemp = args.maxTemp,
+            minTemp = args.minTemp,
+            tempDescription = args.description,
+            iconId = args.iconId
         )
     }
 }

@@ -2,10 +2,12 @@ package com.rhodeon.weathersage.details
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.rhodeon.weathersage.TempDisplaySettingManager
 import com.rhodeon.weathersage.databinding.FragmentForecastDetailsBinding
 import com.rhodeon.weathersage.formatTempOnDisplay
@@ -38,8 +40,17 @@ class ForecastDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewStateObserver = Observer<ForecastDetailsViewState> {viewState ->
             // update UI
-            binding.tempDetailsValue.text = formatTempOnDisplay(viewState.temp, tempDisplaySettingManager.getPreferredUnit())
-            binding.tempDetailsDescription.text = viewState.tempDescription
+            val maxTemp = formatTempOnDisplay(viewState.maxTemp, tempDisplaySettingManager.getPreferredUnit())
+            binding.tempDetailsValue.text ="Estimated Maximum Temperature: " + maxTemp
+
+            val minTemp = formatTempOnDisplay(viewState.minTemp, tempDisplaySettingManager.getPreferredUnit())
+            binding.minTempDetails.text ="Estimated Minimum Temperature: " + minTemp
+
+            binding.tempDetailsDescription.text = "Forecast: " + viewState.tempDescription
+
+            val iconId = viewState.iconId
+            binding.detailsIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+            binding.detailsIcon.isVisible = true
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
     }

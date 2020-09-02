@@ -10,13 +10,13 @@
         android:id="@+id/tempDetailsValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:maxLines="1"
         android:ellipsize="end"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintEnd_toEndOf="@+id/tempDetailsDescription"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/tempDetailsDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tempDetailsDescription"
         tools:text="37°C" />
 
     <TextView
@@ -24,8 +24,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/tempDetailsValue"
-        app:layout_constraintStart_toStartOf="@+id/tempDetailsValue"
-        app:layout_constraintTop_toBottomOf="@+id/tempDetailsValue"
+        app:layout_constraintEnd_toEndOf="@+id/details_icon"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/details_icon"
+        app:layout_constraintTop_toBottomOf="@+id/details_icon"
         tools:text="Room Temperature" />
+
+    <ImageView
+        android:id="@+id/details_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_baseline_cloud_24"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.157"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/minTempDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/tempDetailsDescription"
+        app:layout_constraintStart_toStartOf="@+id/tempDetailsDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tempDetailsValue"
+        tools:text="20 C" />
 </androidx.constraintlayout.widget.ConstraintLayout>
