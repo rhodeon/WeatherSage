@@ -20,12 +20,14 @@ class DailyForecastViewHolder(
     private val tempDisplaySettingManager: TempDisplaySettingManager
 ) : RecyclerView.ViewHolder(view) {
     private val tempValue: TextView = view.findViewById(R.id.temp_value)
+    private val minTemp: TextView = view.findViewById(R.id.min_temp_value)
     private val tempDescription: TextView = view.findViewById(R.id.temp_description)
     private val dailyDate: TextView = view.findViewById(R.id.daily_date)
     private val forecastIcon: ImageView = view.findViewById(R.id.forecast_icon)
 
     fun display(dailyForecast: DailyForecast) {
         tempValue.text = formatTempOnDisplay(dailyForecast.temp.max, tempDisplaySettingManager.getPreferredUnit())
+        minTemp.text = formatTempOnDisplay(dailyForecast.temp.min, tempDisplaySettingManager.getPreferredUnit())
         tempDescription.text = dailyForecast.weather[0].description
         dailyDate.text = DATE_FORMAT.format(Date(dailyForecast.date * 1000))
 
