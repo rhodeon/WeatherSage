@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -48,7 +46,6 @@ class WeeklyForecastFragment : Fragment() {
         binding.forecastView.adapter = dailyForecastAdapter
 
         val viewModelObserver = Observer<WeeklyForecast> { viewState->
-            binding.weeklyForecastProgress.isGone = true    // remove progress bar on loaded state
             dailyForecastAdapter.submitList(viewState.daily)
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
@@ -71,10 +68,7 @@ class WeeklyForecastFragment : Fragment() {
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location> {savedLocation ->
             when (savedLocation) {
-                is Location.Zipcode -> {
-                    binding.weeklyForecastProgress.isVisible = true     // display progress bar while loading state
-                    viewModel.loadWeeklyForecasts(savedLocation.zipcode)    // load weather data
-                }
+                is Location.Zipcode -> viewModel.loadWeeklyForecasts(savedLocation.zipcode)
             }
         }
         locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
