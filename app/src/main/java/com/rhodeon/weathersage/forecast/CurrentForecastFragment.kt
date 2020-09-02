@@ -46,32 +46,28 @@ class CurrentForecastFragment : Fragment() {
         }
 
         // Check if there is a saved location and display data accordingly
-        if (isOnline(requireContext())) {
+        if (isLocationEmpty(requireContext())) {
+            binding.currentEmptyStateText.text = getString(R.string.current_empty_state_text)
+        } else {
+            observeLocation()
+            val viewStateObserver = Observer<CurrentWeather> { viewState ->
+                binding.currentForecastProgress.isGone =
+                    true   // remove progress bar on loaded state
+                binding.locationName.text = viewState.locationName
+                binding.tempValue.text = formatTempOnDisplay(
+                    viewState.forecast.temp,
+                    tempDisplaySettingManager.getPreferredUnit()
+                )
+                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
+                val iconId: String = viewState.weather[0].icon
+                binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+                binding.currentWeatherIcon.isVisible = true
 
-            if (isLocationEmpty(requireContext())) {
-                binding.currentEmptyStateText.text = getString(R.string.current_empty_state_text)
-            } else {
-                observeLocation()
-                val viewStateObserver = Observer<CurrentWeather> { viewState ->
-                    binding.currentForecastProgress.isGone =
-                        true   // remove progress bar on loaded state
-                    binding.locationName.text = viewState.locationName
-                    binding.tempValue.text = formatTempOnDisplay(
-                        viewState.forecast.temp,
-                        tempDisplaySettingManager.getPreferredUnit()
-                    )
-                    binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
-                    val iconId: String = viewState.weather[0].icon
-                    binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
-                    binding.currentWeatherIcon.isVisible = true
-
-                    binding.currentDescriptionText.text =
-                        "Forecast: ${viewState.weather[0].description}"
-                }
-                viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
+                binding.currentDescriptionText.text =
+                    "Forecast: ${viewState.weather[0].description}"
             }
+            viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }
-        else Toast.makeText(requireContext(), "Error loading current weather\nCheck internet connection", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
@@ -97,7 +93,14 @@ class CurrentForecastFragment : Fragment() {
 //                reload forecasts with a change in location
                 is Location.Zipcode -> {
                     binding.currentForecastProgress.isVisible = true    // display progress bar while loading state
+                    if (isOnline(requireContext())) {
                     viewModel.loadCurrentForecast(savedLocation.zipcode, getUnitForRequest(requireContext()))    // load weather data
+                    }
+                    else {
+                        binding.currentForecastProgress.isGone = true
+                        Toast.makeText(requireContext(), "Error loading current weather\n" + "Check internet connection", Toast.LENGTH_SHORT).show()
+                        return@Observer
+                    }
                 }
             }
         }

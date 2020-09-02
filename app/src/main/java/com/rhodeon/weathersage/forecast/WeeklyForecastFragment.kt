@@ -44,28 +44,25 @@ class WeeklyForecastFragment : Fragment() {
             navigateToZipcodeEntry()
         }
 
-        if (isOnline(requireContext())) {
-            // Check if there is a saved location and display data accordingly
-            if (isLocationEmpty(requireContext())) {
-                binding.weeklyEmptyStateText.text = getString(R.string.weekly_empty_state_text)
-            } else {
-                observeLocation()
+        // Check if there is a saved location and display data accordingly
+        if (isLocationEmpty(requireContext())) {
+            binding.weeklyEmptyStateText.text = getString(R.string.weekly_empty_state_text)
+        } else {
+            observeLocation()
 
-                val dailyForecastAdapter =
-                    DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
-                        navigateToForecastDetails(forecast)
-                    }
-                binding.forecastView.adapter = dailyForecastAdapter
-
-                val viewModelObserver = Observer<WeeklyForecast> { viewState ->
-                    binding.weeklyForecastProgress.isGone =
-                        true    // remove progress bar on loaded state
-                    dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
+            val dailyForecastAdapter =
+                DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
+                    navigateToForecastDetails(forecast)
                 }
-                viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
+            binding.forecastView.adapter = dailyForecastAdapter
+
+            val viewModelObserver = Observer<WeeklyForecast> { viewState ->
+                binding.weeklyForecastProgress.isGone =
+                    true    // remove progress bar on loaded state
+                dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
             }
+            viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
         }
-        else Toast.makeText(requireContext(), "Error loading weekly forecast\nCheck internet connection", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
@@ -82,7 +79,15 @@ class WeeklyForecastFragment : Fragment() {
             when (savedLocation) {
                 is Location.Zipcode -> {
                     binding.weeklyForecastProgress.isVisible = true     // display progress bar while loading state
-                    viewModel.loadWeeklyForecasts(savedLocation.zipcode, getUnitForRequest(requireContext()))    // load weather data
+                    if (isOnline(requireContext())) {
+                        viewModel.loadWeeklyForecasts(savedLocation.zipcode, getUnitForRequest(requireContext()))    // load weather data
+                    }
+                    else {
+                        binding.weeklyForecastProgress.isGone = true
+                        Toast.makeText(requireContext(), "Error loading weekly forecast\nCheck internet connection", Toast.LENGTH_SHORT).show()
+                        return@Observer
+                    }
+
                 }
             }
         }
