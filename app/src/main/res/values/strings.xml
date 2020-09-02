@@ -19,5 +19,6 @@
     <string name="icons_url_prefix">https://openweathermap.org/img/wn/10d</string>
     <string name="icons_url_suffix">"@2x.png"</string>
     <string name="current_empty_state_text">Enter a Zipcode to Load Current Weather Data</string>
+    <string name="weekly_empty_state_text">Enter a Zipcode to Load Weekly Forecast Data</string>
 
 </resources>

@@ -38,23 +38,31 @@ class WeeklyForecastFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeLocation()
-
-        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) {forecast ->
-            navigateToForecastDetails(forecast)
-        }
-        binding.forecastView.adapter = dailyForecastAdapter
-
-        val viewModelObserver = Observer<WeeklyForecast> { viewState->
-            binding.weeklyForecastProgress.isGone = true    // remove progress bar on loaded state
-            dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
-        }
-        viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
 
         binding.zipcodeEntryButton.setOnClickListener{
             navigateToZipcodeEntry()
         }
 
+        // Check if there is a saved location and display data accordingly
+        if (isLocationEmpty(requireContext())) {
+            binding.weeklyEmptyStateText.text = getString(R.string.weekly_empty_state_text)
+        }
+
+        else {
+            observeLocation()
+
+            val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
+                navigateToForecastDetails(forecast)
+            }
+            binding.forecastView.adapter = dailyForecastAdapter
+
+            val viewModelObserver = Observer<WeeklyForecast> { viewState ->
+                binding.weeklyForecastProgress.isGone =
+                    true    // remove progress bar on loaded state
+                dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
+            }
+            viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
+        }
     }
 
     override fun onDestroyView() {
