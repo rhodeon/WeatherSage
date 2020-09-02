@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -45,29 +46,32 @@ class CurrentForecastFragment : Fragment() {
         }
 
         // Check if there is a saved location and display data accordingly
-        if (isLocationEmpty(requireContext())) {
-            binding.currentEmptyStateText.text = getString(R.string.current_empty_state_text)
-        }
+        if (isOnline(requireContext())) {
 
-        else {
-            observeLocation()
-            val viewStateObserver = Observer<CurrentWeather> { viewState ->
-                binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
-                binding.locationName.text = viewState.locationName
-                binding.tempValue.text = formatTempOnDisplay(
-                    viewState.forecast.temp,
-                    tempDisplaySettingManager.getPreferredUnit()
-                )
-                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
-                val iconId: String = viewState.weather[0].icon
-                binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
-                binding.currentWeatherIcon.isVisible = true
+            if (isLocationEmpty(requireContext())) {
+                binding.currentEmptyStateText.text = getString(R.string.current_empty_state_text)
+            } else {
+                observeLocation()
+                val viewStateObserver = Observer<CurrentWeather> { viewState ->
+                    binding.currentForecastProgress.isGone =
+                        true   // remove progress bar on loaded state
+                    binding.locationName.text = viewState.locationName
+                    binding.tempValue.text = formatTempOnDisplay(
+                        viewState.forecast.temp,
+                        tempDisplaySettingManager.getPreferredUnit()
+                    )
+                    binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
+                    val iconId: String = viewState.weather[0].icon
+                    binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+                    binding.currentWeatherIcon.isVisible = true
 
-                binding.currentDescriptionText.text =
-                    "Forecast: ${viewState.weather[0].description}"
+                    binding.currentDescriptionText.text =
+                        "Forecast: ${viewState.weather[0].description}"
+                }
+                viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
             }
-            viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }
+        else Toast.makeText(requireContext(), "Error loading current weather\nCheck internet connection", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
