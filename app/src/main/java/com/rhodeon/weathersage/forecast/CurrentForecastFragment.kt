@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import coil.load
@@ -19,7 +22,7 @@ class CurrentForecastFragment : Fragment() {
     private lateinit var locationRepository: LocationRepository
     private var _binding: FragmentCurrentForecastBinding? = null
     private val binding get() = _binding!!
-    private val viewModel = CurrentForecastViewModel()
+    private val viewModel: CurrentForecastViewModel by viewModels()
     private val DATE_FORMAT = SimpleDateFormat("dd-MM-yyyy")
 
     override fun onCreateView(
@@ -40,11 +43,14 @@ class CurrentForecastFragment : Fragment() {
         observeLocation()
 
         val viewStateObserver = Observer<CurrentWeather> { viewState ->
+            binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
             binding.locationName.text = viewState.locationName
             binding.tempValue.text = formatTempOnDisplay(viewState.forecast.temp, tempDisplaySettingManager.getPreferredUnit())
             binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
             val iconId: String = viewState.weather[0].icon
             binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+            binding.currentWeatherIcon.isVisible = true
+
             binding.currentDescriptionText.text = "Forecast: ${viewState.weather[0].description}"
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
@@ -73,7 +79,10 @@ class CurrentForecastFragment : Fragment() {
         val savedLocationObserver = Observer<Location> {savedLocation ->
             when (savedLocation) {
 //                reload forecasts with a change in location
-                is Location.Zipcode -> viewModel.loadCurrentForecast(savedLocation.zipcode)
+                is Location.Zipcode -> {
+                    binding.currentForecastProgress.isVisible = true    // display progress bar while loading state
+                    viewModel.loadCurrentForecast(savedLocation.zipcode)    // load weather data
+                }
             }
         }
         locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
