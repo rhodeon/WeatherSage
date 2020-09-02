@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cloud_icon_size">100dp</dimen>
+    <dimen name="prompt_font_size">20sp</dimen>
+    <dimen name="daily_forecast_item_height">56dp</dimen>
+</resources>

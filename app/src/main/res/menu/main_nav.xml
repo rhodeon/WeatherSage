@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/currentForecastFragment"
+        android:icon="@drawable/ic_baseline_cloud_24"
+        android:title="@string/bottom_nav_daily_tab"
+        />
+
+    <item
+        android:id="@+id/weeklyForecastFragment"
+        android:icon="@drawable/ic_baseline_filter_7_24"
+        android:title="@string/bottom_nav_weekly_tab"
+        />
+
+</menu>
