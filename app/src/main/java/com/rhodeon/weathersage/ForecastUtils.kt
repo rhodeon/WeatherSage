@@ -32,9 +32,19 @@ fun showChangeUnitDialog(context: Context, tempDisplaySettingManager: TempDispla
             tempDisplaySettingManager.updateSettings(TempDisplayUnit.CELSIUS)
         }
 
-        .setOnDismissListener() {
+        .setOnDismissListener {
             Toast.makeText(context, "I will remember this :<", Toast.LENGTH_SHORT).show()
         }
 
     dialogBuilder.show()
+}
+
+fun isLocationEmpty(context: Context): Boolean {
+    // Checks if a saved location exists
+    val locationRepository = LocationRepository(context)
+    val location = locationRepository.getSavedLocation()
+    if (location.isBlank()) {
+        return true
+    }
+    return false
 }

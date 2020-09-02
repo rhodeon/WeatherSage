@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 sealed class Location {
-    data class Zipcode(val zipcode: String) : Location() {
-
-    }
+    data class Zipcode(val zipcode: String) : Location()
 }
 
 const val KEY_ZIPCODE = "key_zipcode"
@@ -19,7 +17,7 @@ class LocationRepository(context: Context) {
     val savedLocation: LiveData<Location> = _savedLocation
 
     init {
-        preferences.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+        preferences.registerOnSharedPreferenceChangeListener { _, key ->
             if (key != KEY_ZIPCODE) return@registerOnSharedPreferenceChangeListener
             broadcastSavedLocation()
         }
@@ -27,19 +25,22 @@ class LocationRepository(context: Context) {
         broadcastSavedLocation()
     }
 
-
     fun saveLocation(location: Location) {
         when(location) {
-            is Location.Zipcode -> preferences.edit().putString(KEY_ZIPCODE, location.zipcode).commit()
+            is Location.Zipcode -> preferences.edit().putString(KEY_ZIPCODE, location.zipcode).apply()
         }
     }
 
     private fun broadcastSavedLocation() {
-
         val zipcode = preferences.getString(KEY_ZIPCODE, "")
 
         if (zipcode != null && zipcode.isNotBlank()) {
             _savedLocation.value = Location.Zipcode(zipcode)
         }
+    }
+
+    fun getSavedLocation(): String {
+        val location =  preferences.getString(KEY_ZIPCODE, "")
+        return location!!
     }
 }

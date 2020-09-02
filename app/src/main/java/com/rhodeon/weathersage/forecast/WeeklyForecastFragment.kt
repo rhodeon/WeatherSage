@@ -47,7 +47,7 @@ class WeeklyForecastFragment : Fragment() {
 
         val viewModelObserver = Observer<WeeklyForecast> { viewState->
             binding.weeklyForecastProgress.isGone = true    // remove progress bar on loaded state
-            dailyForecastAdapter.submitList(viewState.daily)
+            dailyForecastAdapter.submitList(viewState.daily)    // update list adapter
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
 
