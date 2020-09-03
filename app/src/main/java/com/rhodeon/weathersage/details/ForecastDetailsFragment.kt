@@ -39,14 +39,14 @@ class ForecastDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewStateObserver = Observer<ForecastDetailsViewState> {viewState ->
-            // update UI
-            val maxTemp = formatTempOnDisplay(viewState.maxTemp, tempDisplaySettingManager.getPreferredUnit())
-            binding.maxTempDetails.text = "Estimated Maximum Temperature: " + maxTemp
+            // Update the UI
+            val maxTemp: String = formatTempOnDisplay(viewState.maxTemp, tempDisplaySettingManager.getPreferredUnit())
+            binding.maxTempDetails.append(maxTemp)
 
             val minTemp = formatTempOnDisplay(viewState.minTemp, tempDisplaySettingManager.getPreferredUnit())
-            binding.minTempDetails.text = "Estimated Minimum Temperature: " + minTemp
+            binding.minTempDetails.append(minTemp)
 
-            binding.tempDetailsDescription.text = "Forecast: " + viewState.tempDescription
+            binding.tempDetailsDescription.append(viewState.tempDescription)
 
             val iconId = viewState.iconId
             binding.detailsIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")

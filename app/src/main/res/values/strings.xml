@@ -21,4 +21,9 @@
     <string name="current_empty_state_text">Enter a Zipcode to Load Current Weather Data</string>
     <string name="weekly_empty_state_text">Enter a Zipcode to Load Weekly Forecast Data</string>
 
+    <!--    Forecast Details Fragment-->
+    <string name="max_temp_prefix">Estimated Maximum Temperature:\u0020</string>
+    <string name="min_temp_prefix">Estimated Minimum Temperature:\u0020</string>
+    <string name="temp_details_prefix">"Forecast:\u0020"</string>
+
 </resources>
