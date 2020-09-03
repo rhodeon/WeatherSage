@@ -10,7 +10,7 @@ class TempDisplaySettingManager(context: Context) {
     private val preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
     fun updateSettings(preferredUnit: TempDisplayUnit) {
-        preferences.edit().putString("key_preferred_unit", preferredUnit.name).commit()
+        preferences.edit().putString("key_preferred_unit", preferredUnit.name).apply()
     }
 
     fun getPreferredUnit(): TempDisplayUnit {
