@@ -3,9 +3,8 @@
 
     <item
         android:id="@+id/currentForecastFragment"
-        android:icon="@drawable/ic_baseline_cloud_24"
-        android:title="@string/bottom_nav_daily_tab"
-        />
+        android:icon="@drawable/ic_baseline_today_24"
+        android:title="@string/bottom_nav_daily_tab" />
 
     <item
         android:id="@+id/weeklyForecastFragment"
