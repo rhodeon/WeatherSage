@@ -41,10 +41,10 @@ class ForecastDetailsFragment : Fragment() {
         val viewStateObserver = Observer<ForecastDetailsViewState> {viewState ->
             // update UI
             val maxTemp = formatTempOnDisplay(viewState.maxTemp, tempDisplaySettingManager.getPreferredUnit())
-            binding.tempDetailsValue.text ="Estimated Maximum Temperature: " + maxTemp
+            binding.maxTempDetails.text = "Estimated Maximum Temperature: " + maxTemp
 
             val minTemp = formatTempOnDisplay(viewState.minTemp, tempDisplaySettingManager.getPreferredUnit())
-            binding.minTempDetails.text ="Estimated Minimum Temperature: " + minTemp
+            binding.minTempDetails.text = "Estimated Minimum Temperature: " + minTemp
 
             binding.tempDetailsDescription.text = "Forecast: " + viewState.tempDescription
 
