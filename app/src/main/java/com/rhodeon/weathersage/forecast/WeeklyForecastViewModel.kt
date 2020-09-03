@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rhodeon.weathersage.BuildConfig
 import com.rhodeon.weathersage.api.CurrentWeather
 import com.rhodeon.weathersage.api.WeeklyForecast
 import com.rhodeon.weathersage.api.createOpenWeatherMapService
@@ -18,7 +19,7 @@ class WeeklyForecastViewModel : ViewModel() {
     fun loadWeeklyForecasts(zipcode: String, unit: String) {
         // Load weeklyForecast with daily forecast data
         // Obtain long and lat from current weather data
-        val call = createOpenWeatherMapService().currentWeather(zipcode, unit, "fd034db52f3033a3f6dcc38f1b16420d")
+        val call = createOpenWeatherMapService().currentWeather(zipcode, unit, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
         call.enqueue(object: Callback<CurrentWeather> {
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(WeeklyForecastViewModel::class.java.simpleName, "Error Loading Current Weather", t)
@@ -31,7 +32,7 @@ class WeeklyForecastViewModel : ViewModel() {
                     val call = createOpenWeatherMapService().weeklyWeather(
                         lat = weatherResponse.coord.lat,
                         lon = weatherResponse.coord.lon,
-                        apikey = "fd034db52f3033a3f6dcc38f1b16420d",
+                        apikey = BuildConfig.OPEN_WEATHER_MAP_API_KEY,
                         exclude = "current,minutely,hourly",
                         unit = unit
 

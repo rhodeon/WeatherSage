@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.rhodeon.weathersage.BuildConfig
 import com.rhodeon.weathersage.api.CurrentWeather
 import com.rhodeon.weathersage.api.createOpenWeatherMapService
 import retrofit2.Call
@@ -15,7 +16,7 @@ class CurrentForecastViewModel : ViewModel() {
     val viewState: LiveData<CurrentWeather> = _viewState
 
     fun loadCurrentForecast(zipcode: String, unit: String) {
-        val call = createOpenWeatherMapService().currentWeather(zipcode, unit, "fd034db52f3033a3f6dcc38f1b16420d")
+        val call = createOpenWeatherMapService().currentWeather(zipcode, unit, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
         call.enqueue(object: Callback<CurrentWeather> {
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(CurrentForecastViewModel::class.java.simpleName, "Error Loading Current Weather", t)

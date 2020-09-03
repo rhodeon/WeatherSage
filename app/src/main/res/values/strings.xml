@@ -15,7 +15,6 @@
     <string name="bottom_nav_daily_tab">Daily</string>
     <string name="bottom_nav_weekly_tab">Weekly</string>
 
-    <string name="api_key">fd034db52f3033a3f6dcc38f1b16420d</string>
     <string name="icons_url_prefix">https://openweathermap.org/img/wn/10d</string>
     <string name="icons_url_suffix">"@2x.png"</string>
     <string name="current_empty_state_text">Enter a Zipcode to Load Current Weather Data</string>
