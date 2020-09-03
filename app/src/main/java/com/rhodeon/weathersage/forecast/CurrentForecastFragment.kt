@@ -60,7 +60,7 @@ class CurrentForecastFragment : Fragment() {
                 )
                 binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
                 val iconId: String = viewState.weather[0].icon
-                binding.currentWeatherIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+                binding.currentWeatherIcon.load(parseIconUrl(iconId))
                 binding.currentWeatherIcon.isVisible = true
 
                 binding.currentDescriptionText.text =

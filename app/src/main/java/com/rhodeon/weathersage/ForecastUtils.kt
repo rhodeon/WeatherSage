@@ -59,6 +59,11 @@ fun getUnitForRequest(context: Context): String {
     else "imperial"     // FAHRENHEIT
 }
 
+fun parseIconUrl(iconId: String): String {
+    // Returns the url of the weather icon
+    return "https://openweathermap.org/img/wn/${iconId}@2x.png"
+}
+
 fun isOnline(context: Context): Boolean {
     val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

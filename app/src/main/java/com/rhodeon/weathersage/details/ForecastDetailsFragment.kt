@@ -11,6 +11,7 @@ import coil.load
 import com.rhodeon.weathersage.TempDisplaySettingManager
 import com.rhodeon.weathersage.databinding.FragmentForecastDetailsBinding
 import com.rhodeon.weathersage.formatTempOnDisplay
+import com.rhodeon.weathersage.parseIconUrl
 
 class ForecastDetailsFragment : Fragment() {
     private val args: ForecastDetailsFragmentArgs by navArgs()
@@ -49,7 +50,7 @@ class ForecastDetailsFragment : Fragment() {
             binding.tempDetailsDescription.append(viewState.tempDescription)
 
             val iconId = viewState.iconId
-            binding.detailsIcon.load("http://openweathermap.org/img/wn/${iconId}@2x.png")
+            binding.detailsIcon.load(parseIconUrl(iconId))
             binding.detailsIcon.isVisible = true
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
