@@ -40,8 +40,8 @@ class WeeklyForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.zipcodeEntryButton.setOnClickListener{
-            navigateToZipcodeEntry()
+        binding.navigateToLocationEntryFab.setOnClickListener{
+            navigateToLocationEntry()
         }
 
         // Check if there is a saved location and display data accordingly
@@ -94,8 +94,8 @@ class WeeklyForecastFragment : Fragment() {
         locationRepository.savedLocation.observe(viewLifecycleOwner, savedLocationObserver)
     }
 
-    private fun navigateToZipcodeEntry() {
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToZipcodeEntryFragment()
+    private fun navigateToLocationEntry() {
+        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToLocationEntryFragment()
         findNavController().navigate(action)
     }
 

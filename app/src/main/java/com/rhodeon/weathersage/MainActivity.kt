@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set up home fragment according to the existence of a saved location
         if (!isLocationEmpty(this)) navGraph.startDestination = R.id.currentForecastFragment    // Start from current weather fragment if there is an existing location
-        else navGraph.startDestination = R.id.zipcodeEntryFragment                                      // Start from zipcode entry fragment if there is no saved location
+        else navGraph.startDestination = R.id.locationEntryFragment                                      // Start from location entry fragment if there is no saved location
 
         navController.graph = navGraph
 

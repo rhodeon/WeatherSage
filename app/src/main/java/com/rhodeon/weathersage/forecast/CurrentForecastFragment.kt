@@ -41,8 +41,8 @@ class CurrentForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.zipcodeEntryButton.setOnClickListener {
-            navigateToZipcodeEntry()
+        binding.navigateToLocationEntryFab.setOnClickListener {
+            navigateToLocationEntry()
         }
 
         // Check if there is a saved location and display data accordingly
@@ -75,8 +75,8 @@ class CurrentForecastFragment : Fragment() {
         _binding = null
     }
 
-    private fun  navigateToZipcodeEntry() {
-        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToZipcodeEntryFragment2()
+    private fun  navigateToLocationEntry() {
+        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
         findNavController().navigate(action)
     }
 

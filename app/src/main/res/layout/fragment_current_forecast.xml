@@ -19,7 +19,7 @@
         tools:text="Lagos" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/zipcode_entry_button"
+        android:id="@+id/navigate_to_location_entry_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

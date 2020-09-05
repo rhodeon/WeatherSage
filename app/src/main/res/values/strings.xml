@@ -2,11 +2,6 @@
     <string name="app_name">Weather Sage</string>
     <string name="forecast_details">Forecast Details</string>
 
-    <string name="zipcode_prompt">Enter Your Zipcode</string>
-    <string name="input_zipcode">Enter Zipcode</string>
-    <string name="submit_button">Submit Zipcode</string>
-
-    <string name="invalid_zipcode_length">Invalid Zipcode Length</string>
     <string name="forecast_toast">Temperature: %1$.2f, %2$s</string>
 
     <string name="units_option">Change Unit</string>
@@ -17,8 +12,8 @@
 
     <string name="icons_url_prefix">https://openweathermap.org/img/wn/10d</string>
     <string name="icons_url_suffix">"@2x.png"</string>
-    <string name="current_empty_state_text">Enter a Zipcode to Load Current Weather Data</string>
-    <string name="weekly_empty_state_text">Enter a Zipcode to Load Weekly Forecast Data</string>
+    <string name="current_empty_state_text">Enter a Location to Load Current Weather Data</string>
+    <string name="weekly_empty_state_text">Enter a Location to Load Weekly Forecast Data</string>
 
     <!--    Forecast Details Fragment-->
     <string name="max_temp_prefix">Estimated Maximum Temperature:\u0020</string>
