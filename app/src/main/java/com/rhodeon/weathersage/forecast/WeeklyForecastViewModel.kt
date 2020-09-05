@@ -16,10 +16,11 @@ class WeeklyForecastViewModel : ViewModel() {
     private val _viewState = MutableLiveData<WeeklyForecast>()
     val viewState: LiveData<WeeklyForecast> = _viewState
 
-    fun loadWeeklyForecasts(zipcode: String, unit: String) {
+    fun loadWeeklyForecastsByName(cityName: String, countryCode: String, unit: String) {
         // Load weeklyForecast with daily forecast data
         // Obtain long and lat from current weather data
-        val call = createOpenWeatherMapService().currentWeather(zipcode, unit, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
+        val fullLocation = cityName + "," + countryCode
+        val call = createOpenWeatherMapService().currentWeatherByName(fullLocation, unit, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
         call.enqueue(object: Callback<CurrentWeather> {
             override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
                 Log.e(WeeklyForecastViewModel::class.java.simpleName, "Error Loading Current Weather", t)

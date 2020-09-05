@@ -33,7 +33,7 @@ interface OpenWeatherMapService {
     ): Call<WeeklyForecast>
 
     @GET("/data/2.5/weather")
-    fun currentWeatherByLocation (
+    fun currentWeatherByName (
         @Query("q") location: String,
         @Query("units") units: String,
         @Query("appid") apikey: String

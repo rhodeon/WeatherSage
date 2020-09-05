@@ -17,7 +17,7 @@ class CurrentForecastViewModel : ViewModel() {
 
     fun loadCurrentForecastByName(cityName: String, countryCode: String, unit: String) {
         val fullLocation = cityName + "," + countryCode
-        val call = createOpenWeatherMapService().currentWeatherByLocation(
+        val call = createOpenWeatherMapService().currentWeatherByName(
             location = fullLocation,
             units = unit,
             apikey = BuildConfig.OPEN_WEATHER_MAP_API_KEY

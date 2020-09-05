@@ -77,10 +77,10 @@ class WeeklyForecastFragment : Fragment() {
         locationRepository = LocationRepository(requireContext())
         val savedLocationObserver = Observer<Location> {savedLocation ->
             when (savedLocation) {
-                is Location.Zipcode -> {
+                is Location.CountryCode -> {
                     binding.weeklyForecastProgress.isVisible = true     // display progress bar while loading state
                     if (isOnline(requireContext())) {
-                        viewModel.loadWeeklyForecasts(savedLocation.zipcode, getUnitForRequest(requireContext()))    // load weather data
+                        viewModel.loadWeeklyForecastsByName(savedLocation.city, savedLocation.code, getUnitForRequest(requireContext()))    // load weather data
                     }
                     else {
                         binding.weeklyForecastProgress.isGone = true
