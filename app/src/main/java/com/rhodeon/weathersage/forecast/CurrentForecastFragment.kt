@@ -91,10 +91,10 @@ class CurrentForecastFragment : Fragment() {
 
             when (savedLocation) {
 //                reload forecasts with a change in location
-                is Location.Zipcode -> {
+                is Location.CountryCode -> {
                     binding.currentForecastProgress.isVisible = true    // display progress bar while loading state
                     if (isOnline(requireContext())) {
-                    viewModel.loadCurrentForecast(savedLocation.zipcode, getUnitForRequest(requireContext()))    // load weather data
+                        viewModel.loadCurrentForecastByName(savedLocation.city, savedLocation.code, getUnitForRequest(requireContext()))    // load weather data
                     }
                     else {
                         binding.currentForecastProgress.isGone = true

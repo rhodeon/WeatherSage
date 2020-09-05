@@ -31,4 +31,11 @@ interface OpenWeatherMapService {
         @Query("exclude") exclude: String,
         @Query("units") unit: String
     ): Call<WeeklyForecast>
+
+    @GET("/data/2.5/weather")
+    fun currentWeatherByLocation (
+        @Query("q") location: String,
+        @Query("units") units: String,
+        @Query("appid") apikey: String
+    ): Call<CurrentWeather>
 }

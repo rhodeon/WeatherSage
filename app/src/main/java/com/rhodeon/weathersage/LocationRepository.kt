@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 sealed class Location {
-    data class Zipcode(val zipcode: String) : Location()
+    data class CountryCode(val city: String, val code: String) : Location()
 }
-
-const val KEY_ZIPCODE = "key_zipcode"
 
 class LocationRepository(context: Context) {
     private val preferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
@@ -18,7 +16,7 @@ class LocationRepository(context: Context) {
 
     init {
         preferences.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key != KEY_ZIPCODE) return@registerOnSharedPreferenceChangeListener
+            if (key != "key_country_code") return@registerOnSharedPreferenceChangeListener
             broadcastSavedLocation()
         }
 
@@ -27,20 +25,24 @@ class LocationRepository(context: Context) {
 
     fun saveLocation(location: Location) {
         when(location) {
-            is Location.Zipcode -> preferences.edit().putString(KEY_ZIPCODE, location.zipcode).apply()
+            is Location.CountryCode -> {
+                preferences.edit().putString("key_city_name", location.city).apply()
+                preferences.edit().putString("key_country_code", location.code).apply()
+            }
         }
     }
 
     private fun broadcastSavedLocation() {
-        val zipcode = preferences.getString(KEY_ZIPCODE, "")
+        val city = preferences.getString("key_city_name", "")
+        val code = preferences.getString("key_country_code", "")
 
-        if (zipcode != null && zipcode.isNotBlank()) {
-            _savedLocation.value = Location.Zipcode(zipcode)
+        if (!code.isNullOrBlank()) {
+            _savedLocation.value = Location.CountryCode(city!!, code!!)
         }
     }
 
     fun getSavedLocation(): String {
-        val location =  preferences.getString(KEY_ZIPCODE, "")
+        val location =  preferences.getString("key_country_code", "")
         return location!!
     }
 }
