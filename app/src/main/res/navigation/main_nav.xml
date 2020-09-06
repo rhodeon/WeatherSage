@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/locationEntryFragment"
         android:name="com.rhodeon.weathersage.location.LocationEntryFragment"
-        android:label="LocationEntryFragment" >
+        android:label="@string/app_name" >
         <action
             android:id="@+id/action_locationEntryFragment_to_currentForecastFragment"
             app:destination="@id/currentForecastFragment" />

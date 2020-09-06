@@ -5,20 +5,27 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)  // display the main activity
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
         val navGraph = navController.navInflater.inflate(R.navigation.main_nav)
 
         // Set up home fragment according to the existence of a saved location
@@ -27,7 +34,16 @@ class MainActivity : AppCompatActivity() {
 
         navController.graph = navGraph
 
-        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)
+        // Setup appbar
+        appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)     // setup bottom nav bar
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        // Navigate up on back arrow click
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     // region: Handle Menu
