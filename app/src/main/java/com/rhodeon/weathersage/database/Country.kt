@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "countries_data")
 data class Country (
-    @PrimaryKey val uid: Int,
-    @ColumnInfo(name = "Name") val name: String?,
-    @ColumnInfo(name = "Code") val code: String?
+    @PrimaryKey
+    @ColumnInfo(name = "Name", typeAffinity = 1) val name: String,
+    @ColumnInfo(name = "Code", typeAffinity = 1) val code: String
 )

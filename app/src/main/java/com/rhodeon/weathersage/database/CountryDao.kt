@@ -5,9 +5,9 @@ import androidx.room.Query
 
 @Dao
 interface CountryDao {
-    @Query("SELECT DISTINCT Name FROM Country  ")
+    @Query("SELECT DISTINCT Name FROM countries_data")
     fun getCountryList(): List<String>
 
-    @Query("SELECT Code FROM Country WHERE Name LIKE :countryName")
+    @Query("SELECT Code FROM countries_data WHERE Name LIKE :countryName")
     fun getCountryCode(countryName: String): String
 }
