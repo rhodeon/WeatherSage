@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.DailyForecast
@@ -34,6 +35,7 @@ class WeeklyForecastFragment : Fragment() {
         tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
         binding.forecastView.layoutManager = LinearLayoutManager(requireContext())
 
+
         return binding.root
     }
 
@@ -55,6 +57,14 @@ class WeeklyForecastFragment : Fragment() {
                     navigateToForecastDetails(forecast)
                 }
             binding.forecastView.adapter = dailyForecastAdapter
+
+            // Add horizontal divider to recycler view
+            binding.forecastView.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL
+                )
+            )
 
             val viewModelObserver = Observer<WeeklyForecast> { viewState ->
                 binding.weeklyForecastProgress.isGone =
