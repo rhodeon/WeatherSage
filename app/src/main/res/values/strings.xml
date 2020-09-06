@@ -19,5 +19,8 @@
     <string name="max_temp_prefix">Estimated Maximum Temperature:\u0020</string>
     <string name="min_temp_prefix">Estimated Minimum Temperature:\u0020</string>
     <string name="temp_details_prefix">"Forecast:\u0020"</string>
+    <string name="default_country_name">Country Name</string>
+    <string name="location_submit_button">Submit</string>
+    <string name="default_city_name">City Name</string>
 
 </resources>

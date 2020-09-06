@@ -32,13 +32,20 @@ class LocationRepository(context: Context) {
         }
     }
 
+    fun saveCountryName(country: String) {
+        preferences.edit().putString("key_country_name", country).apply()
+    }
+
     private fun broadcastSavedLocation() {
         val city = preferences.getString("key_city_name", "")
         val code = preferences.getString("key_country_code", "")
 
-        if (!code.isNullOrBlank()) {
-            _savedLocation.value = Location.CountryCode(city!!, code!!)
+        // Update the value of saved location if neither country code or city name if null or blank
+        if (!(code.isNullOrBlank())) {
+            if (!(city.isNullOrBlank())) {
+            _savedLocation.value = Location.CountryCode(city, code)
         }
+            }
     }
 
     fun getSavedLocation(): String {

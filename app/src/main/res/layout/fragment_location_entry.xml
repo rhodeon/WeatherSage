@@ -4,36 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="false">
+    android:clickable="false"
+    tools:visibility="visible">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/country_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Country Name"
+        android:hint="@string/default_country_name"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.204" />
+        app:layout_constraintVertical_bias="0.204"
+        tools:visibility="visible" />
+
 
     <EditText
         android:id="@+id/city_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="City Name"
+        android:clickable="false"
+        android:hint="@string/default_city_name"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/edit_icon"
+        app:layout_constraintEnd_toEndOf="@+id/country_input"
         app:layout_constraintStart_toStartOf="@+id/country_input"
         app:layout_constraintTop_toBottomOf="@+id/country_input"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintVertical_bias="0.100000024"
+        android:importantForAutofill="no"
+        android:inputType="text" />
+
 
     <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/location_submit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/city_input"
         app:layout_constraintHorizontal_bias="0.486"
@@ -45,23 +52,37 @@
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="145dp"
         android:layout_marginTop="18dp"
-        android:layout_marginEnd="166dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+        app:srcCompat="@drawable/ic_baseline_location_on_24"
+        tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/edit_icon"
+        android:id="@+id/edit_country_icon"
         android:layout_width="16dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/country_input"
-        app:layout_constraintStart_toEndOf="@+id/country_input"
-        app:layout_constraintTop_toTopOf="@+id/country_input"
-        app:srcCompat="@drawable/ic_baseline_edit_24" />
+        app:layout_constraintBottom_toBottomOf="@+id/country_text"
+        app:layout_constraintStart_toEndOf="@+id/country_text"
+        app:layout_constraintTop_toTopOf="@+id/country_text"
+        app:srcCompat="@drawable/ic_baseline_edit_24"
+        android:focusable="true"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/country_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="@string/default_country_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/city_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
