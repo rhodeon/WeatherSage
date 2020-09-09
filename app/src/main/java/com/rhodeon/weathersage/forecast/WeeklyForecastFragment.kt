@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.DailyForecast
 import com.rhodeon.weathersage.api.WeeklyForecast
@@ -37,6 +38,19 @@ class WeeklyForecastFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Hide FAB when scrolling down and show it when scrolling up.
+        binding.forecastView.addOnScrollListener (object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {   // scrolled down
+                    binding.navigateToLocationEntryFab.hide()
+                }
+                else if (dy < 0) {  // scrolled up
+                    binding.navigateToLocationEntryFab.show()
+                }
+            }
+
+        })
 
         binding.navigateToLocationEntryFab.setOnClickListener{
             navigateToLocationEntry()
@@ -65,6 +79,7 @@ class WeeklyForecastFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.forecastView.clearOnScrollListeners()
         _binding = null
     }
 
