@@ -75,6 +75,14 @@ class WeeklyForecastFragment : Fragment() {
             }
             viewModel.viewState.observe(viewLifecycleOwner, viewModelObserver)
         }
+
+        val responseMessageObserver = Observer<String> {message ->
+            if (!message.isNullOrBlank()) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                binding.weeklyForecastProgress.isGone = true   // remove progress bar on loaded state
+            }
+        }
+        viewModel.message.observe(viewLifecycleOwner, responseMessageObserver)
     }
 
     override fun onDestroyView() {

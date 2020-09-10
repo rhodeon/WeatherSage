@@ -16,6 +16,9 @@ class WeeklyForecastViewModel : ViewModel() {
     private val _viewState = MutableLiveData<WeeklyForecast>()
     val viewState: LiveData<WeeklyForecast> = _viewState
 
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
+
     fun loadWeeklyForecastsByName(cityName: String, countryCode: String, unit: String) {
         // Load weeklyForecast with daily forecast data
         // Obtain long and lat from current weather data
@@ -30,6 +33,7 @@ class WeeklyForecastViewModel : ViewModel() {
                 val weatherResponse = response.body()
 
                 if (weatherResponse != null) {
+                    // Use long and lat as queries to get weekly forecast
                     val call = createOpenWeatherMapService().weeklyWeather(
                         lat = weatherResponse.coord.lat,
                         lon = weatherResponse.coord.lon,
@@ -53,13 +57,16 @@ class WeeklyForecastViewModel : ViewModel() {
                                 _viewState.value = weeklyWeatherResponse
                             }
                         }
-
                     })
                 }
+
+                else {  // On an error response
+                    when (response.code()) {
+                        404 -> _message.value = "City not found"
+                        else -> _message.value = "Error Loading Current Weather"
+                    }
+                }
             }
-
         })
-
     }
-
 }

@@ -48,11 +48,12 @@ class CurrentForecastFragment : Fragment() {
         // Check if there is a saved location and display data accordingly
         if (isLocationEmpty(requireContext())) {
             binding.currentEmptyStateText.text = getString(R.string.current_empty_state_text)
-        } else {
+        }
+
+        else {
             observeLocation()
             val viewStateObserver = Observer<CurrentWeather> { viewState ->
-                binding.currentForecastProgress.isGone =
-                    true   // remove progress bar on loaded state
+                binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
                 binding.locationName.text = viewState.locationName
                 binding.tempValue.text = formatTempOnDisplay(
                     viewState.forecast.temp,
@@ -68,6 +69,14 @@ class CurrentForecastFragment : Fragment() {
             }
             viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }
+
+        val responseMessageObserver = Observer<String> {message ->
+            if (!message.isNullOrBlank()) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
+            }
+        }
+        viewModel.message.observe(viewLifecycleOwner, responseMessageObserver)
     }
 
     override fun onDestroyView() {
@@ -87,7 +96,6 @@ class CurrentForecastFragment : Fragment() {
 
 //        Create and link an observer for the saved location
         val savedLocationObserver = Observer<Location> {savedLocation ->
-
 
             when (savedLocation) {
 //                reload forecasts with a change in location

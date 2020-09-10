@@ -15,6 +15,9 @@ class CurrentForecastViewModel : ViewModel() {
     private val _viewState = MutableLiveData<CurrentWeather>()
     val viewState: LiveData<CurrentWeather> = _viewState
 
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
+
     fun loadCurrentForecastByName(cityName: String, countryCode: String, unit: String) {
         val fullLocation = cityName + "," + countryCode
         val call = createOpenWeatherMapService().currentWeatherByName(
@@ -34,9 +37,14 @@ class CurrentForecastViewModel : ViewModel() {
                 if (weatherResponse != null) {
                     _viewState.value = weatherResponse
                 }
-            }
 
+                else { // On an error response
+                    when (response.code()) {
+                        404 -> _message.value = "City not found"
+                        else -> _message.value = "Error Loading Current Weather"
+                    }
+                }
+            }
         } )
     }
-
 }
