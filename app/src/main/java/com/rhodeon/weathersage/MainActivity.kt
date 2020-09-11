@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,8 +17,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,16 +32,12 @@ class MainActivity : AppCompatActivity() {
 
         navController.graph = navGraph
 
-        // Setup appbar
-        appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.locationEntryFragment, R.id.currentForecastFragment, R.id.weeklyForecastFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)     // setup bottom nav bar
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        // Navigate up on back arrow click
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     // region: Handle Menu
