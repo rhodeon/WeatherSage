@@ -11,7 +11,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.rhodeon.weathersage.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)  // display the main activity
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)  // display the main activity
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
         navController = findNavController(R.id.nav_host_fragment)
@@ -32,12 +33,12 @@ class MainActivity : AppCompatActivity() {
 
         navController.graph = navGraph
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.locationEntryFragment, R.id.currentForecastFragment, R.id.weeklyForecastFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)     // setup bottom nav bar
+        binding.bottomNavigationView.setupWithNavController(navController)     // setup bottom nav bar
     }
 
     // region: Handle Menu
