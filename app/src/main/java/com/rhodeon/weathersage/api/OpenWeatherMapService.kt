@@ -19,7 +19,7 @@ interface OpenWeatherMapService {
     @GET("/data/2.5/weather")
     fun currentWeatherByName (
         @Query("q") location: String,
-        @Query("units") units: String,
+        @Query("units") unit: String,
         @Query("appid") apikey: String
     ): Call<CurrentWeather>
 

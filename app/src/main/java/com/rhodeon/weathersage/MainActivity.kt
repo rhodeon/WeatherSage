@@ -13,7 +13,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rhodeon.weathersage.databinding.ActivityMainBinding
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private lateinit var navController: NavController
@@ -53,8 +52,8 @@ class MainActivity : AppCompatActivity() {
         // Handle when a menu item is selected with the use of its ID
         // Param: item - a clicked or selected menu item
         return when (item.itemId) {
-            R.id.units_option -> {
-                showChangeUnitDialog(this, tempDisplaySettingManager)
+            R.id.settings -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

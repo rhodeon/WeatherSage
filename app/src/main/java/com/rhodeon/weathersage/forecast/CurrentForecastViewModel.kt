@@ -22,7 +22,7 @@ class CurrentForecastViewModel : ViewModel() {
         val fullLocation = cityName + "," + countryCode
         val call = createOpenWeatherMapService().currentWeatherByName(
             location = fullLocation,
-            units = unit,
+            unit = unit,
             apikey = BuildConfig.OPEN_WEATHER_MAP_API_KEY
         )
 

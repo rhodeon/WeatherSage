@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
-    tools:visibility="visible">
+    tools:visibility="visible"
+    tools:context=".location.LocationEntryFragment">
 
     <AutoCompleteTextView
         android:id="@+id/country_input"
