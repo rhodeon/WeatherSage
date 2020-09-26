@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,13 +16,16 @@ import androidx.navigation.ui.setupWithNavController
 import com.rhodeon.weathersage.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)  // display the main activity
+
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
         navController = findNavController(R.id.nav_host_fragment)
@@ -34,10 +39,23 @@ class MainActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.locationEntryFragment, R.id.currentForecastFragment, R.id.weeklyForecastFragment))
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.locationEntryFragment, R.id.currentForecastFragment, R.id.weeklyForecastFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.bottomNavigationView.setupWithNavController(navController)     // setup bottom nav bar
+
+        // Hide the settings icon when opening the settings fragment.
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.settingsFragment -> findViewById<View>(R.id.settings).isVisible = false
+            }
+        }
+    }
+
+    // Allows the up arrow to navigate back to the previous fragment and redisplay the settings icon.
+    override fun onSupportNavigateUp(): Boolean {
+        findViewById<View>(R.id.settings).isVisible = true
+        return findNavController(R.id.nav_host_fragment).navigateUp()
     }
 
     // region: Handle Menu
