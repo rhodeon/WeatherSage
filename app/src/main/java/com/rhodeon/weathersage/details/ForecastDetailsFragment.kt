@@ -3,17 +3,17 @@ package com.rhodeon.weathersage.details
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.rhodeon.weathersage.TempDisplaySettingManager
 import com.rhodeon.weathersage.databinding.FragmentForecastDetailsBinding
 import com.rhodeon.weathersage.formatTempOnDisplay
 import com.rhodeon.weathersage.parseIconUrl
 
-class ForecastDetailsFragment : Fragment() {
+class ForecastDetailsFragment : BottomSheetDialogFragment() {
     private val args: ForecastDetailsFragmentArgs by navArgs()
     private val viewModel: ForecastDetailsViewModel by viewModels(
         factoryProducer = {viewModelFactory}
