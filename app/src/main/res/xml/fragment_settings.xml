@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
         android:key="key_preferred_unit"
         android:title="Unit"
         android:entries="@array/unit_entries"
         android:entryValues="@array/unit_entry_values"
-        android:defaultValue="@string/celsius_value"/>
+        android:defaultValue="@string/celsius_value"
+        app:iconSpaceReserved="false"
+        android:summary="%s"/>
 
 </PreferenceScreen>
