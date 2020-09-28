@@ -2,7 +2,13 @@ package com.rhodeon.weathersage.api
 
 import com.squareup.moshi.Json
 
-data class Forecast(val temp: Float)
+data class Forecast(
+    val temp: Float,
+    val pressure: Float,
+    val humidity: Float
+)
+
+data class Wind(val speed: Float)
 
 data class Coordinates(
     val lat: Float,
@@ -19,6 +25,7 @@ data class CurrentWeather(
     @field:Json(name = "name") val locationName: String,
     val coord: Coordinates,
     @field:Json(name = "main") val forecast: Forecast,
+    val wind: Wind,
     @field:Json(name = "dt") val date: Long,
     val weather: List<CurrentWeatherDescription>
 )

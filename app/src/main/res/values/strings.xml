@@ -30,4 +30,8 @@
     <string name="celsius_value">CELSIUS</string>
     <string name="fahrenheit_value">FAHRENHEIT</string>
 
+    <string name="humidity_header">Humidity</string>
+    <string name="pressure_header">Pressure</string>
+    <string name="wind_speed_header">Wind Speed</string>
+
 </resources>

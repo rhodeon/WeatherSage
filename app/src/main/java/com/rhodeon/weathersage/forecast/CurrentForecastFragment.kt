@@ -66,6 +66,15 @@ class CurrentForecastFragment : Fragment() {
 
                 binding.currentDescriptionText.text =
                     "Forecast: ${viewState.weather[0].description}"
+
+                binding.humidityCard.isVisible = true
+                binding.humidityValue.text = viewState.forecast.humidity.toString()
+
+                binding.pressureCard.isVisible = true
+                binding.pressureValue.text = viewState.forecast.pressure.toString()
+
+                binding.windSpeedCard.isVisible = true
+                binding.windSpeedValue.text = viewState.wind.speed.toString()
             }
             viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }
