@@ -15,8 +15,6 @@ import coil.load
 import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.CurrentWeather
 import com.rhodeon.weathersage.databinding.FragmentCurrentForecastBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
 class CurrentForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -24,7 +22,6 @@ class CurrentForecastFragment : Fragment() {
     private var _binding: FragmentCurrentForecastBinding? = null
     private val binding get() = _binding!!
     private val viewModel: CurrentForecastViewModel by viewModels()
-    private val DATE_FORMAT = SimpleDateFormat("dd-MM-yyyy")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,13 +56,14 @@ class CurrentForecastFragment : Fragment() {
                     viewState.forecast.temp,
                     tempDisplaySettingManager.getPreferredUnit()
                 )
-                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
+//                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
                 val iconId: String = viewState.weather[0].icon
                 binding.currentWeatherIcon.load(parseIconUrl(iconId))
                 binding.currentWeatherIcon.isVisible = true
 
-                binding.currentDescriptionText.text =
-                    "Forecast: ${viewState.weather[0].description}"
+                binding.currentDescriptionText.text = viewState.weather[0].description
+
+                binding.countryCodeText.text = viewState.sys.country
 
                 binding.humidityCard.isVisible = true
                 binding.humidityValue.text = viewState.forecast.humidity.toString()

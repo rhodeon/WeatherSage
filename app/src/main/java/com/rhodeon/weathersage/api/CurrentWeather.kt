@@ -20,6 +20,8 @@ data class CurrentWeatherDescription(
     val icon: String
 )
 
+data class Sys(val country: String)
+
 data class CurrentWeather(
     // Model of each forecast with name, coordinate and temperature value
     @field:Json(name = "name") val locationName: String,
@@ -27,5 +29,6 @@ data class CurrentWeather(
     @field:Json(name = "main") val forecast: Forecast,
     val wind: Wind,
     @field:Json(name = "dt") val date: Long,
-    val weather: List<CurrentWeatherDescription>
+    val weather: List<CurrentWeatherDescription>,
+    val sys: Sys
 )

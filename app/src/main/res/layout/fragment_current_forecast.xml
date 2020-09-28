@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Lagos" />
@@ -36,19 +36,20 @@
         android:id="@+id/tempValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         app:layout_constraintEnd_toEndOf="@+id/current_weather_icon"
         app:layout_constraintStart_toStartOf="@+id/current_weather_icon"
         app:layout_constraintTop_toBottomOf="@+id/current_weather_icon"
         tools:text="70" />
 
     <TextView
-        android:id="@+id/dateText"
+        android:id="@+id/country_code_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toStartOf="@+id/location_name"
         app:layout_constraintTop_toBottomOf="@+id/location_name"
-        tools:text="25-04-2000" />
+        tools:text="NG" />
 
     <ImageView
         android:id="@+id/current_weather_icon"
@@ -59,7 +60,7 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateText"
+        app:layout_constraintTop_toBottomOf="@+id/country_code_text"
         tools:ignore="ContentDescription"
         tools:visibility="visible" />
 
@@ -101,11 +102,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure_card"
         app:layout_constraintEnd_toStartOf="@+id/pressure_card"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_empty_state_text"
+        app:layout_constraintTop_toTopOf="@+id/pressure_card"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,11 +153,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigate_to_location_entry_fab"
         app:layout_constraintEnd_toStartOf="@+id/wind_speed_card"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/humidity_card"
-        app:layout_constraintTop_toBottomOf="@+id/current_empty_state_text"
+        app:layout_constraintTop_toBottomOf="@+id/current_description_text"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -202,11 +203,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/pressure_card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/pressure_card"
-        app:layout_constraintTop_toBottomOf="@+id/current_empty_state_text"
+        app:layout_constraintTop_toTopOf="@+id/pressure_card"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
