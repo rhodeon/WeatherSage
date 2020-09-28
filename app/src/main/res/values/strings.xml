@@ -7,7 +7,7 @@
     <string name="units_option">Change Unit</string>
     <string name="change_unit_dialog_title"> Choose Preferred Unit</string>
 
-    <string name="bottom_nav_daily_tab">Daily</string>
+    <string name="bottom_nav_today_tab">Today</string>
     <string name="bottom_nav_weekly_tab">Weekly</string>
 
     <string name="icons_url_prefix">https://openweathermap.org/img/wn/10d</string>
