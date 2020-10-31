@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage.forecast
+package com.rhodeon.weathersage.ui.weeklyforecast
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.DailyForecast
 import com.rhodeon.weathersage.api.WeeklyForecast
 import com.rhodeon.weathersage.databinding.FragmentWeeklyForecastBinding
-import com.rhodeon.weathersage.utils.navigateSafe
+import com.rhodeon.weathersage.utils.*
 
 class WeeklyForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -31,7 +31,10 @@ class WeeklyForecastFragment : Fragment() {
     ): View? {
 
         _binding = FragmentWeeklyForecastBinding.inflate(inflater, container, false)
-        tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
+        tempDisplaySettingManager =
+            TempDisplaySettingManager(
+                requireContext()
+            )
 
         return binding.root
     }
@@ -63,7 +66,9 @@ class WeeklyForecastFragment : Fragment() {
             observeLocation()
 
             val dailyForecastAdapter =
-                DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
+                DailyForecastAdapter(
+                    tempDisplaySettingManager
+                ) { forecast ->
                     navigateToForecastDetails(forecast)
                 }
             binding.forecastView.adapter = dailyForecastAdapter
@@ -101,7 +106,11 @@ class WeeklyForecastFragment : Fragment() {
                 is Location.CountryCode -> {
                     binding.weeklyForecastProgress.isVisible = true     // display progress bar while loading state
                     if (isOnline(requireContext())) {
-                        viewModel.loadWeeklyForecastsByName(savedLocation.city, savedLocation.code, getUnitForRequest(requireContext()))    // load weather data
+                        viewModel.loadWeeklyForecastsByName(savedLocation.city, savedLocation.code,
+                            getUnitForRequest(
+                                requireContext()
+                            )
+                        )    // load weather data
                     }
                     else {
                         binding.weeklyForecastProgress.isGone = true
@@ -116,16 +125,18 @@ class WeeklyForecastFragment : Fragment() {
     }
 
     private fun navigateToLocationEntry() {
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToLocationEntryFragment()
+        val action =
+            WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToLocationEntryFragment()
         navigateSafe(action)
     }
 
     private fun navigateToForecastDetails(forecast: DailyForecast) {
-        val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(
-            maxTemp = forecast.temp.max,
-            minTemp = forecast.temp.min ,
-            description = forecast.weather[0].description,
-            iconId = forecast.weather[0].icon
+        val action =
+            WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToForecastDetailsFragment(
+                maxTemp = forecast.temp.max,
+                minTemp = forecast.temp.min,
+                description = forecast.weather[0].description,
+                iconId = forecast.weather[0].icon
             )
 
         navigateSafe(action)

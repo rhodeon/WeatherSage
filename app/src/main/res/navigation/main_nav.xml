@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/currentForecastFragment"
-        android:name="com.rhodeon.weathersage.forecast.CurrentForecastFragment"
+        android:name="com.rhodeon.weathersage.ui.currentforecast.CurrentForecastFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_current_forecast" >
         <action
@@ -35,7 +35,7 @@
     </dialog>
     <fragment
         android:id="@+id/weeklyForecastFragment"
-        android:name="com.rhodeon.weathersage.forecast.WeeklyForecastFragment"
+        android:name="com.rhodeon.weathersage.ui.weeklyforecast.WeeklyForecastFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_weekly_forecast" >
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationEntryFragment"
-        android:name="com.rhodeon.weathersage.location.LocationEntryFragment"
+        android:name="com.rhodeon.weathersage.ui.location.LocationEntryFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_location_entry">
         <action

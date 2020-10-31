@@ -8,10 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.rhodeon.weathersage.TempDisplaySettingManager
+import com.rhodeon.weathersage.utils.TempDisplaySettingManager
 import com.rhodeon.weathersage.databinding.FragmentForecastDetailsBinding
-import com.rhodeon.weathersage.formatTempOnDisplay
-import com.rhodeon.weathersage.parseIconUrl
+import com.rhodeon.weathersage.utils.formatTempOnDisplay
+import com.rhodeon.weathersage.utils.parseIconUrl
 
 class ForecastDetailsFragment : BottomSheetDialogFragment() {
     private val args: ForecastDetailsFragmentArgs by navArgs()
@@ -33,7 +33,10 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
     ): View? {
         _binding = FragmentForecastDetailsBinding.inflate(inflater, container, false)
         viewModelFactory = ForecastDetailsViewModelFactory(args)
-        tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
+        tempDisplaySettingManager =
+            TempDisplaySettingManager(
+                requireContext()
+            )
         return binding.root
     }
 
@@ -41,16 +44,27 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewStateObserver = Observer<ForecastDetailsViewState> {viewState ->
             // Update the UI
-            val maxTemp: String = formatTempOnDisplay(viewState.maxTemp, tempDisplaySettingManager.getPreferredUnit())
+            val maxTemp: String =
+                formatTempOnDisplay(
+                    viewState.maxTemp,
+                    tempDisplaySettingManager.getPreferredUnit()
+                )
             binding.maxTempDetails.append(maxTemp)
 
-            val minTemp = formatTempOnDisplay(viewState.minTemp, tempDisplaySettingManager.getPreferredUnit())
+            val minTemp = formatTempOnDisplay(
+                viewState.minTemp,
+                tempDisplaySettingManager.getPreferredUnit()
+            )
             binding.minTempDetails.append(minTemp)
 
             binding.tempDetailsDescription.append(viewState.tempDescription)
 
             val iconId = viewState.iconId
-            binding.detailsIcon.load(parseIconUrl(iconId))
+            binding.detailsIcon.load(
+                parseIconUrl(
+                    iconId
+                )
+            )
             binding.detailsIcon.isVisible = true
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)

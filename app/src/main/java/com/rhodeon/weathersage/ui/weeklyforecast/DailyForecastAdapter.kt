@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage
+package com.rhodeon.weathersage.ui.weeklyforecast
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.rhodeon.weathersage.R
+import com.rhodeon.weathersage.utils.TempDisplaySettingManager
 import com.rhodeon.weathersage.api.DailyForecast
+import com.rhodeon.weathersage.utils.formatTempOnDisplay
+import com.rhodeon.weathersage.utils.parseIconUrl
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,8 +30,14 @@ class DailyForecastViewHolder(
     private val forecastIcon: ImageView = view.findViewById(R.id.forecast_icon)
 
     fun display(dailyForecast: DailyForecast) {
-        tempValue.text = formatTempOnDisplay(dailyForecast.temp.max, tempDisplaySettingManager.getPreferredUnit())
-        minTemp.text = formatTempOnDisplay(dailyForecast.temp.min, tempDisplaySettingManager.getPreferredUnit())
+        tempValue.text = formatTempOnDisplay(
+            dailyForecast.temp.max,
+            tempDisplaySettingManager.getPreferredUnit()
+        )
+        minTemp.text = formatTempOnDisplay(
+            dailyForecast.temp.min,
+            tempDisplaySettingManager.getPreferredUnit()
+        )
         tempDescription.text = dailyForecast.weather[0].description
         dailyDate.text = DATE_FORMAT.format(Date(dailyForecast.date * 1000))
 
@@ -39,7 +49,9 @@ class DailyForecastViewHolder(
 class DailyForecastAdapter (
     private val tempDisplaySettingManager: TempDisplaySettingManager,
     private val clickHandler: (DailyForecast) -> Unit
-) : ListAdapter<DailyForecast, DailyForecastViewHolder>(DIFF_CONFIG) {
+) : ListAdapter<DailyForecast, DailyForecastViewHolder>(
+    DIFF_CONFIG
+) {
 
     companion object {
         val DIFF_CONFIG = object: DiffUtil.ItemCallback<DailyForecast>() {
@@ -57,7 +69,10 @@ class DailyForecastAdapter (
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyForecastViewHolder {
         // For creating a view holder from a view
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.daily_forecast_item, parent, false)
-        return DailyForecastViewHolder(itemView, tempDisplaySettingManager)
+        return DailyForecastViewHolder(
+            itemView,
+            tempDisplaySettingManager
+        )
     }
 
     override fun onBindViewHolder(holder: DailyForecastViewHolder, position: Int) {

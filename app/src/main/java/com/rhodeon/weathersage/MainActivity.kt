@@ -14,6 +14,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rhodeon.weathersage.databinding.ActivityMainBinding
+import com.rhodeon.weathersage.utils.TempDisplaySettingManager
+import com.rhodeon.weathersage.utils.isLocationEmpty
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)  // display the main activity
 
-        tempDisplaySettingManager = TempDisplaySettingManager(this)
+        tempDisplaySettingManager =
+            TempDisplaySettingManager(this)
 
         navController = findNavController(R.id.nav_host_fragment)
         val navGraph = navController.navInflater.inflate(R.navigation.main_nav)

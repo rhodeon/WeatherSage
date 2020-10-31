@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage.location
+package com.rhodeon.weathersage.ui.location
 
 import android.content.Context
 import android.os.Bundle
@@ -112,7 +112,8 @@ class LocationEntryFragment : Fragment() {
     }
 
     private fun navigateToCurrentForecast() {
-        val action = LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment()
+        val action =
+            LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment()
         navigateSafe(action)
     }
 }

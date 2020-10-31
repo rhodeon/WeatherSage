@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage
+package com.rhodeon.weathersage.utils
 
 import android.content.Context
 

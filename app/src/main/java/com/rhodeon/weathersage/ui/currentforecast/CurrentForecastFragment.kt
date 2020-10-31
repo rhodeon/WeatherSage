@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage.forecast
+package com.rhodeon.weathersage.ui.currentforecast
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import coil.load
 import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.CurrentWeather
 import com.rhodeon.weathersage.databinding.FragmentCurrentForecastBinding
-import com.rhodeon.weathersage.utils.navigateSafe
+import com.rhodeon.weathersage.utils.*
 
 class CurrentForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -30,7 +30,10 @@ class CurrentForecastFragment : Fragment() {
     ): View? {
 
         _binding = FragmentCurrentForecastBinding.inflate(inflater, container, false)
-        tempDisplaySettingManager = TempDisplaySettingManager(requireContext())
+        tempDisplaySettingManager =
+            TempDisplaySettingManager(
+                requireContext()
+            )
 
         return binding.root
     }
@@ -52,13 +55,18 @@ class CurrentForecastFragment : Fragment() {
             val viewStateObserver = Observer<CurrentWeather> { viewState ->
                 binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
                 binding.locationName.text = viewState.locationName
-                binding.tempValue.text = formatTempOnDisplay(
-                    viewState.forecast.temp,
-                    tempDisplaySettingManager.getPreferredUnit()
-                )
+                binding.tempValue.text =
+                    formatTempOnDisplay(
+                        viewState.forecast.temp,
+                        tempDisplaySettingManager.getPreferredUnit()
+                    )
 //                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
                 val iconId: String = viewState.weather[0].icon
-                binding.currentWeatherIcon.load(parseIconUrl(iconId))
+                binding.currentWeatherIcon.load(
+                    parseIconUrl(
+                        iconId
+                    )
+                )
                 binding.currentWeatherIcon.isVisible = true
 
                 binding.currentDescriptionText.text = viewState.weather[0].description
@@ -92,7 +100,8 @@ class CurrentForecastFragment : Fragment() {
     }
 
     private fun  navigateToLocationEntry() {
-        val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
+        val action =
+            CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
         navigateSafe(action)
     }
 
@@ -109,7 +118,11 @@ class CurrentForecastFragment : Fragment() {
                 is Location.CountryCode -> {
                     binding.currentForecastProgress.isVisible = true    // display progress bar while loading state
                     if (isOnline(requireContext())) {
-                        viewModel.loadCurrentForecastByName(savedLocation.city, savedLocation.code, getUnitForRequest(requireContext()))    // load weather data
+                        viewModel.loadCurrentForecastByName(savedLocation.city, savedLocation.code,
+                            getUnitForRequest(
+                                requireContext()
+                            )
+                        )    // load weather data
                     }
                     else {
                         binding.currentForecastProgress.isGone = true

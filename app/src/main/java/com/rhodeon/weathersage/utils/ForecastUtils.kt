@@ -1,9 +1,10 @@
-package com.rhodeon.weathersage
+package com.rhodeon.weathersage.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import com.rhodeon.weathersage.LocationRepository
 
 fun formatTempOnDisplay(temp: Float, tempPreferredUnit: TempDisplayUnit): String {
     // Format displayed temperature and unit according to saved preferences
@@ -28,7 +29,8 @@ fun isLocationEmpty(context: Context): Boolean {
 
 fun getUnitForRequest(context: Context): String {
     // Returns temperature unit to be used for API query
-    val tempDisplaySettingManager = TempDisplaySettingManager(context)
+    val tempDisplaySettingManager =
+        TempDisplaySettingManager(context)
     val savedUnit = tempDisplaySettingManager.getPreferredUnit()
 
     return if (savedUnit == TempDisplayUnit.CELSIUS) {
