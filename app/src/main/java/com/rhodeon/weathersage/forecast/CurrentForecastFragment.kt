@@ -10,11 +10,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import coil.load
 import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.CurrentWeather
 import com.rhodeon.weathersage.databinding.FragmentCurrentForecastBinding
+import com.rhodeon.weathersage.utils.navigateSafe
 
 class CurrentForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -93,7 +93,7 @@ class CurrentForecastFragment : Fragment() {
 
     private fun  navigateToLocationEntry() {
         val action = CurrentForecastFragmentDirections.actionCurrentForecastFragmentToLocationEntryFragment()
-        findNavController().navigate(action)
+        navigateSafe(action)
     }
 
     private fun observeLocation() {

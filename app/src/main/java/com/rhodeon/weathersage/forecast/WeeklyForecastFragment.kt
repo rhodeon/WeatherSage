@@ -10,12 +10,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.rhodeon.weathersage.*
 import com.rhodeon.weathersage.api.DailyForecast
 import com.rhodeon.weathersage.api.WeeklyForecast
 import com.rhodeon.weathersage.databinding.FragmentWeeklyForecastBinding
+import com.rhodeon.weathersage.utils.navigateSafe
 
 class WeeklyForecastFragment : Fragment() {
     private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
@@ -117,7 +117,7 @@ class WeeklyForecastFragment : Fragment() {
 
     private fun navigateToLocationEntry() {
         val action = WeeklyForecastFragmentDirections.actionWeeklyForecastFragmentToLocationEntryFragment()
-        findNavController().navigate(action)
+        navigateSafe(action)
     }
 
     private fun navigateToForecastDetails(forecast: DailyForecast) {
@@ -128,6 +128,6 @@ class WeeklyForecastFragment : Fragment() {
             iconId = forecast.weather[0].icon
             )
 
-        findNavController().navigate(action)
+        navigateSafe(action)
     }
 }

@@ -11,13 +11,13 @@ import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.room.Room
 import com.rhodeon.weathersage.Location
 import com.rhodeon.weathersage.LocationRepository
 import com.rhodeon.weathersage.R
 import com.rhodeon.weathersage.database.AppDatabase
 import com.rhodeon.weathersage.databinding.FragmentLocationEntryBinding
+import com.rhodeon.weathersage.utils.navigateSafe
 
 class LocationEntryFragment : Fragment() {
     private var _binding: FragmentLocationEntryBinding? = null
@@ -113,6 +113,6 @@ class LocationEntryFragment : Fragment() {
 
     private fun navigateToCurrentForecast() {
         val action = LocationEntryFragmentDirections.actionLocationEntryFragmentToCurrentForecastFragment()
-        findNavController().navigate(action)
+        navigateSafe(action)
     }
 }
