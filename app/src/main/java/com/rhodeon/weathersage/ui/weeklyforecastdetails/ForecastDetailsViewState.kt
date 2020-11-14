@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage.details
+package com.rhodeon.weathersage.ui.weeklyforecastdetails
 
 
 data class ForecastDetailsViewState(

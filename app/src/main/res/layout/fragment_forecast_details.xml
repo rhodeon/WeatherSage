@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details.ForecastDetailsFragment">
+    tools:context=".ui.weeklyforecastdetails.ForecastDetailsFragment">
 
     <TextView
         android:id="@+id/max_temp_details"

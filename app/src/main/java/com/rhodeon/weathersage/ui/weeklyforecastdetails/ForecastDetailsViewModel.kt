@@ -1,4 +1,4 @@
-package com.rhodeon.weathersage.details
+package com.rhodeon.weathersage.ui.weeklyforecastdetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

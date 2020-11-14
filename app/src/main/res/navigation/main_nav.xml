@@ -17,7 +17,7 @@
     </fragment>
     <dialog
         android:id="@+id/forecastDetailsFragment"
-        android:name="com.rhodeon.weathersage.details.ForecastDetailsFragment"
+        android:name="com.rhodeon.weathersage.ui.weeklyforecastdetails.ForecastDetailsFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_forecast_details" >
         <argument
