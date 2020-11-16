@@ -1,5 +1,6 @@
 package com.rhodeon.weathersage.ui.weeklyforecastdetails
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.isVisible
@@ -44,28 +45,32 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewStateObserver = Observer<ForecastDetailsViewState> {viewState ->
             // Update the UI
+            val tempView = binding.temperatureView
+            tempView.tempCard.isClickable = false
+
             val maxTemp: String =
                 formatTempOnDisplay(
                     viewState.maxTemp,
                     tempDisplaySettingManager.getPreferredUnit()
                 )
-            binding.maxTempDetails.append(maxTemp)
+            tempView.tempValue.append(maxTemp)
 
             val minTemp = formatTempOnDisplay(
                 viewState.minTemp,
                 tempDisplaySettingManager.getPreferredUnit()
             )
-            binding.minTempDetails.append(minTemp)
+            tempView.minTempValue.append(minTemp)
 
-            binding.tempDetailsDescription.append(viewState.tempDescription)
+            tempView.tempDescription.append(viewState.tempDescription)
 
             val iconId = viewState.iconId
-            binding.detailsIcon.load(
+            tempView.forecastIcon.load(
                 parseIconUrl(
                     iconId
                 )
             )
-            binding.detailsIcon.isVisible = true
+            tempView.forecastIcon.isVisible = true
+
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
     }
