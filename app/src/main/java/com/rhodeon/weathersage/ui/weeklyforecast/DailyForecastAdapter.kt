@@ -12,12 +12,9 @@ import coil.load
 import com.rhodeon.weathersage.R
 import com.rhodeon.weathersage.utils.TempDisplaySettingManager
 import com.rhodeon.weathersage.api.DailyForecast
+import com.rhodeon.weathersage.utils.formatDate
 import com.rhodeon.weathersage.utils.formatTempOnDisplay
 import com.rhodeon.weathersage.utils.parseIconUrl
-import java.text.SimpleDateFormat
-import java.util.*
-
-private val DATE_FORMAT = SimpleDateFormat("dd-MM-yyyy")
 
 class DailyForecastViewHolder(
     view: View,
@@ -39,7 +36,7 @@ class DailyForecastViewHolder(
             tempDisplaySettingManager.getPreferredUnit()
         )
         tempDescription.text = dailyForecast.weather[0].description
-        dailyDate.text = DATE_FORMAT.format(Date(dailyForecast.date * 1000))
+        dailyDate.text = formatDate(dailyForecast.date)
 
         val iconId: String = dailyForecast.weather[0].icon
         forecastIcon.load(parseIconUrl(iconId))
