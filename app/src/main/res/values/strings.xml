@@ -9,6 +9,7 @@
 
     <string name="bottom_nav_today_tab">Today</string>
     <string name="bottom_nav_weekly_tab">Weekly</string>
+    <string name="settings_tab">Settings</string>
 
     <string name="icons_url_prefix">https://openweathermap.org/img/wn/10d</string>
     <string name="icons_url_suffix">"@2x.png"</string>

@@ -12,4 +12,10 @@
         android:title="@string/bottom_nav_weekly_tab"
         />
 
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/settings_tab"
+        />
+
 </menu>
