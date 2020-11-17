@@ -2,34 +2,20 @@ package com.rhodeon.weathersage
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rhodeon.weathersage.databinding.ActivityMainBinding
-import com.rhodeon.weathersage.utils.TempDisplaySettingManager
 import com.rhodeon.weathersage.utils.isLocationEmpty
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
     private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)  // display the main activity
-
-        tempDisplaySettingManager =
-            TempDisplaySettingManager(this)
 
         navController = findNavController(R.id.nav_host_fragment)
         val navGraph = navController.navInflater.inflate(R.navigation.main_nav)
@@ -39,46 +25,6 @@ class MainActivity : AppCompatActivity() {
         else navGraph.startDestination = R.id.locationEntryFragment                                      // Start from location entry fragment if there is no saved location
 
         navController.graph = navGraph
-
-        val toolbar: Toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.locationEntryFragment, R.id.currentForecastFragment, R.id.weeklyForecastFragment))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
         binding.bottomNavigationView.setupWithNavController(navController)     // setup bottom nav bar
-
-        // Hide the settings icon when opening the settings fragment.
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.settingsFragment -> findViewById<View>(R.id.settings).isVisible = false
-            }
-        }
     }
-
-    // Allows the up arrow to navigate back to the previous fragment and redisplay the settings icon.
-    override fun onSupportNavigateUp(): Boolean {
-        findViewById<View>(R.id.settings).isVisible = true
-        return findNavController(R.id.nav_host_fragment).navigateUp()
-    }
-
-    // region: Handle Menu
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Populate menu view with settings_menu items
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.settings_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle when a menu item is selected with the use of its ID
-        // Param: item - a clicked or selected menu item
-        return when (item.itemId) {
-            R.id.settings -> {
-                findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-    // endregion: Handle Menu
 }
