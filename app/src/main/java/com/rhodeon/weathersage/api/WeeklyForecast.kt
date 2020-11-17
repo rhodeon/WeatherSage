@@ -22,6 +22,9 @@ data class WeatherDescription (
 data class DailyForecast(
     @field:Json(name = "dt") val date: Long,
     val temp: Temp,
+    val pressure: Float,
+    val humidity: Float,
+    @field:Json(name = "wind_speed")val windSpeed: Float,
     val weather: List<WeatherDescription>
 ) : Parcelable
 

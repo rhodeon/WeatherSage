@@ -69,6 +69,12 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
 
             tempView.dailyDate.text = formatDate(viewState.forecast.date)
 
+            val miscDetailsView = binding.miscDetailsView
+            miscDetailsView.layout.isVisible = true
+            miscDetailsView.humidityValue.text = forecast.humidity.toString()
+            miscDetailsView.pressureValue.text = forecast.pressure.toString()
+            miscDetailsView.windSpeedValue.text = forecast.windSpeed.toString()
+
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
     }
