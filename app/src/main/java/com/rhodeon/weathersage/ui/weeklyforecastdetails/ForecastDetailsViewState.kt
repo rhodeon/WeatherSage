@@ -1,9 +1,9 @@
 package com.rhodeon.weathersage.ui.weeklyforecastdetails
 
+import com.rhodeon.weathersage.api.DailyForecast
+
 
 data class ForecastDetailsViewState(
-    val maxTemp: Float,
-    val minTemp: Float,
-    val tempDescription: String,
-    val iconId: String
+    val forecast: DailyForecast
 )
+

@@ -21,17 +21,8 @@
         android:label="@string/app_name"
         tools:layout="@layout/fragment_forecast_details" >
         <argument
-            android:name="maxTemp"
-            app:argType="float" />
-        <argument
-            android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="minTemp"
-            app:argType="float" />
-        <argument
-            android:name="iconId"
-            app:argType="string" />
+            android:name="forecast"
+            app:argType="com.rhodeon.weathersage.api.DailyForecast" />
     </dialog>
     <fragment
         android:id="@+id/weeklyForecastFragment"
