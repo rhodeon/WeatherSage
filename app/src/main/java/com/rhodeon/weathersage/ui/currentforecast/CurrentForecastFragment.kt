@@ -60,7 +60,7 @@ class CurrentForecastFragment : Fragment() {
                         viewState.forecast.temp,
                         tempDisplaySettingManager.getPreferredUnit()
                     )
-//                binding.dateText.text = DATE_FORMAT.format(Date(viewState.date * 1000))
+                binding.date.text = formatDate(viewState.date)
                 val iconId: String = viewState.weather[0].icon
                 binding.currentWeatherIcon.load(
                     parseIconUrl(
@@ -73,14 +73,11 @@ class CurrentForecastFragment : Fragment() {
 
                 binding.countryCodeText.text = viewState.sys.country
 
-                binding.humidityCard.isVisible = true
-                binding.humidityValue.text = viewState.forecast.humidity.toString()
-
-                binding.pressureCard.isVisible = true
-                binding.pressureValue.text = viewState.forecast.pressure.toString()
-
-                binding.windSpeedCard.isVisible = true
-                binding.windSpeedValue.text = viewState.wind.speed.toString()
+                val miscDetailsView = binding.miscDetailsView
+                miscDetailsView.layout.isVisible = true
+                miscDetailsView.humidityValue.text = viewState.forecast.humidity.toString()
+                miscDetailsView.pressureValue.text = viewState.forecast.pressure.toString()
+                miscDetailsView.windSpeedValue.text = viewState.wind.speed.toString()
             }
             viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }

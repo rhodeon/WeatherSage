@@ -6,17 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.currentforecast.CurrentForecastFragment">
 
-
     <TextView
         android:id="@+id/location_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Lagos" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="04 APR 2020" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/navigate_to_location_entry_fab"
@@ -97,156 +109,13 @@
         app:layout_constraintVertical_bias="0.32999998"
         tools:text="No Weather Data" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/humidity_card"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/pressure_card"
-        app:layout_constraintEnd_toStartOf="@+id/pressure_card"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pressure_card"
-        tools:visibility="visible">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/humidity_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_humidity"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/humidity_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/humidity_header"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/humidity_icon" />
-
-            <TextView
-                android:id="@+id/humidity_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/humidity_header"
-                tools:text="50" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/pressure_card"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:visibility="invisible"
+    <include
+        android:id="@+id/misc_details_view"
+        layout="@layout/misc_details_view"
         app:layout_constraintBottom_toTopOf="@+id/navigate_to_location_entry_fab"
-        app:layout_constraintEnd_toStartOf="@+id/wind_speed_card"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/humidity_card"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/current_description_text"
-        tools:visibility="visible">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/pressure_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_pressure"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/pressure_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/pressure_header"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pressure_icon" />
-
-            <TextView
-                android:id="@+id/pressure_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pressure_header"
-                tools:text="50" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/wind_speed_card"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/pressure_card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pressure_card"
-        app:layout_constraintTop_toTopOf="@+id/pressure_card"
-        tools:visibility="visible">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/wind_speed_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_wind"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/wind_speed_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/wind_speed_header"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wind_speed_icon" />
-
-            <TextView
-                android:id="@+id/wind_speed_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wind_speed_header"
-                tools:text="50" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
