@@ -18,7 +18,7 @@ import com.rhodeon.weathersage.databinding.FragmentWeeklyForecastBinding
 import com.rhodeon.weathersage.utils.*
 
 class WeeklyForecastFragment : Fragment() {
-    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+    private lateinit var unitDisplayManager: UnitDisplayManager
     private lateinit var locationRepository: LocationRepository
     private var _binding: FragmentWeeklyForecastBinding? = null
     private val binding get() = _binding!!
@@ -31,10 +31,7 @@ class WeeklyForecastFragment : Fragment() {
     ): View? {
 
         _binding = FragmentWeeklyForecastBinding.inflate(inflater, container, false)
-        tempDisplaySettingManager =
-            TempDisplaySettingManager(
-                requireContext()
-            )
+        unitDisplayManager = UnitDisplayManager(requireContext())
 
         return binding.root
     }
@@ -67,7 +64,7 @@ class WeeklyForecastFragment : Fragment() {
 
             val dailyForecastAdapter =
                 DailyForecastAdapter(
-                    tempDisplaySettingManager
+                    unitDisplayManager
                 ) { forecast ->
                     navigateToForecastDetails(forecast)
                 }

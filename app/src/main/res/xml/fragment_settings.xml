@@ -7,7 +7,7 @@
         android:title="Unit"
         android:entries="@array/unit_entries"
         android:entryValues="@array/unit_entry_values"
-        android:defaultValue="@string/celsius_value"
+        android:defaultValue="@string/metric_value"
         app:iconSpaceReserved="false"
         android:summary="%s"/>
 

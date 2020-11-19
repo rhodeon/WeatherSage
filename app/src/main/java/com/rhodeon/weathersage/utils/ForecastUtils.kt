@@ -8,17 +8,6 @@ import com.rhodeon.weathersage.LocationRepository
 import java.text.DateFormat.getDateInstance
 import java.util.*
 
-fun formatTempOnDisplay(temp: Float, tempPreferredUnit: TempDisplayUnit): String {
-    // Format displayed temperature and unit according to saved preferences
-    // Param: temp - value of temperature
-    //        tempDisplayUnit - preferred unit stored in settings
-
-    return when(tempPreferredUnit) {
-        TempDisplayUnit.CELSIUS -> String.format("%.2f °C", temp)
-        TempDisplayUnit.FAHRENHEIT ->  String.format("%.2f °F", temp)
-    }
-}
-
 fun isLocationEmpty(context: Context): Boolean {
     // Checks if a saved location exists
     val locationRepository = LocationRepository(context)
@@ -31,14 +20,13 @@ fun isLocationEmpty(context: Context): Boolean {
 
 fun getUnitForRequest(context: Context): String {
     // Returns temperature unit to be used for API query
-    val tempDisplaySettingManager =
-        TempDisplaySettingManager(context)
-    val savedUnit = tempDisplaySettingManager.getPreferredUnit()
+    val unitDisplayManager = UnitDisplayManager(context)
+    val savedUnit = unitDisplayManager.preferredUnit
 
-    return if (savedUnit == TempDisplayUnit.CELSIUS) {
+    return if (savedUnit == Unit.METRIC) {
         "metric"
     }
-    else "imperial"     // FAHRENHEIT
+    else "imperial"
 }
 
 fun parseIconUrl(iconId: String): String {

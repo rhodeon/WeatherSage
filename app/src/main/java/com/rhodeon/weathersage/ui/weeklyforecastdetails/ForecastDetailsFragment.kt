@@ -8,11 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.rhodeon.weathersage.utils.TempDisplaySettingManager
 import com.rhodeon.weathersage.databinding.FragmentForecastDetailsBinding
-import com.rhodeon.weathersage.utils.formatDate
-import com.rhodeon.weathersage.utils.formatTempOnDisplay
-import com.rhodeon.weathersage.utils.parseIconUrl
+import com.rhodeon.weathersage.utils.*
 
 class ForecastDetailsFragment : BottomSheetDialogFragment() {
     private val args: ForecastDetailsFragmentArgs by navArgs()
@@ -21,7 +18,7 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
     )
     private lateinit var viewModelFactory: ForecastDetailsViewModelFactory
 
-    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+    private lateinit var unitDisplayManager: UnitDisplayManager
     private var _binding: FragmentForecastDetailsBinding? = null
     private val binding get() = _binding!!
 
@@ -32,10 +29,7 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
     ): View? {
         _binding = FragmentForecastDetailsBinding.inflate(inflater, container, false)
         viewModelFactory = ForecastDetailsViewModelFactory(args)
-        tempDisplaySettingManager =
-            TempDisplaySettingManager(
-                requireContext()
-            )
+        unitDisplayManager = UnitDisplayManager(requireContext())
         return binding.root
     }
 
@@ -48,17 +42,10 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
             val tempView = binding.temperatureView
             tempView.tempCard.isClickable = false
 
-            val maxTemp: String =
-                formatTempOnDisplay(
-                    forecast.temp.max,
-                    tempDisplaySettingManager.getPreferredUnit()
-                )
+            val maxTemp: String = unitDisplayManager.formatTemp(forecast.temp.max)
             tempView.tempValue.append(maxTemp)
 
-            val minTemp = formatTempOnDisplay(
-                forecast.temp.min,
-                tempDisplaySettingManager.getPreferredUnit()
-            )
+            val minTemp = unitDisplayManager.formatTemp(forecast.temp.min)
             tempView.minTempValue.append(minTemp)
 
             tempView.tempDescription.append(forecast.weather[0].description)
@@ -71,9 +58,9 @@ class ForecastDetailsFragment : BottomSheetDialogFragment() {
 
             val miscDetailsView = binding.miscDetailsView
             miscDetailsView.layout.isVisible = true
-            miscDetailsView.humidityValue.text = forecast.humidity.toString()
-            miscDetailsView.pressureValue.text = forecast.pressure.toString()
-            miscDetailsView.windSpeedValue.text = forecast.windSpeed.toString()
+            miscDetailsView.humidityValue.text = unitDisplayManager.formatHumidity(forecast.humidity)
+            miscDetailsView.pressureValue.text = unitDisplayManager.formatPressure(forecast.pressure)
+            miscDetailsView.windSpeedValue.text = unitDisplayManager.formatWindSpeed(forecast.windSpeed)
 
         }
         viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)

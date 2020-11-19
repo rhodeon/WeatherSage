@@ -17,7 +17,7 @@ import com.rhodeon.weathersage.databinding.FragmentCurrentForecastBinding
 import com.rhodeon.weathersage.utils.*
 
 class CurrentForecastFragment : Fragment() {
-    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
+    private lateinit var unitDisplayManager: UnitDisplayManager
     private lateinit var locationRepository: LocationRepository
     private var _binding: FragmentCurrentForecastBinding? = null
     private val binding get() = _binding!!
@@ -28,13 +28,8 @@ class CurrentForecastFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentCurrentForecastBinding.inflate(inflater, container, false)
-        tempDisplaySettingManager =
-            TempDisplaySettingManager(
-                requireContext()
-            )
-
+        unitDisplayManager = UnitDisplayManager(requireContext())
         return binding.root
     }
 
@@ -55,12 +50,9 @@ class CurrentForecastFragment : Fragment() {
             val viewStateObserver = Observer<CurrentWeather> { viewState ->
                 binding.currentForecastProgress.isGone = true   // remove progress bar on loaded state
                 binding.locationName.text = viewState.locationName
-                binding.tempValue.text =
-                    formatTempOnDisplay(
-                        viewState.forecast.temp,
-                        tempDisplaySettingManager.getPreferredUnit()
-                    )
+                binding.tempValue.text = unitDisplayManager.formatTemp(viewState.forecast.temp)
                 binding.date.text = formatDate(viewState.date)
+
                 val iconId: String = viewState.weather[0].icon
                 binding.currentWeatherIcon.load(
                     parseIconUrl(
@@ -68,16 +60,14 @@ class CurrentForecastFragment : Fragment() {
                     )
                 )
                 binding.currentWeatherIcon.isVisible = true
-
                 binding.currentDescriptionText.text = viewState.weather[0].description
-
                 binding.countryCodeText.text = viewState.sys.country
 
                 val miscDetailsView = binding.miscDetailsView
                 miscDetailsView.layout.isVisible = true
-                miscDetailsView.humidityValue.text = viewState.forecast.humidity.toString()
-                miscDetailsView.pressureValue.text = viewState.forecast.pressure.toString()
-                miscDetailsView.windSpeedValue.text = viewState.wind.speed.toString()
+                miscDetailsView.humidityValue.text = unitDisplayManager.formatHumidity(viewState.forecast.humidity)
+                miscDetailsView.pressureValue.text = unitDisplayManager.formatPressure(viewState.forecast.pressure)
+                miscDetailsView.windSpeedValue.text = unitDisplayManager.formatWindSpeed(viewState.wind.speed)
             }
             viewModel.viewState.observe(viewLifecycleOwner, viewStateObserver)
         }

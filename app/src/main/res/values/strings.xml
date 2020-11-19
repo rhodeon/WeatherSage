@@ -26,10 +26,11 @@
 
     <!--    Settings-->
     <string name="settings_title">Settings</string>
-    <string name="celsius">Celsius</string>
-    <string name="fahrenheit">Fahrenheit</string>
-    <string name="celsius_value">CELSIUS</string>
-    <string name="fahrenheit_value">FAHRENHEIT</string>
+    <string name="metric">Metric</string>
+    <string name="imperial">Imperial</string>
+    <string name="metric_value">METRIC</string>
+    <string name="imperial_value">IMPERIAL</string>
+
 
     <string name="humidity_header">Humidity</string>
     <string name="pressure_header">Pressure</string>

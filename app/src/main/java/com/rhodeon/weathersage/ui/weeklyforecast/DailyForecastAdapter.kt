@@ -10,15 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rhodeon.weathersage.R
-import com.rhodeon.weathersage.utils.TempDisplaySettingManager
 import com.rhodeon.weathersage.api.DailyForecast
-import com.rhodeon.weathersage.utils.formatDate
-import com.rhodeon.weathersage.utils.formatTempOnDisplay
-import com.rhodeon.weathersage.utils.parseIconUrl
+import com.rhodeon.weathersage.utils.*
 
 class DailyForecastViewHolder(
     view: View,
-    private val tempDisplaySettingManager: TempDisplaySettingManager
+    private val unitDisplayManager: UnitDisplayManager
 ) : RecyclerView.ViewHolder(view) {
     private val tempValue: TextView = view.findViewById(R.id.temp_value)
     private val minTemp: TextView = view.findViewById(R.id.min_temp_value)
@@ -27,14 +24,8 @@ class DailyForecastViewHolder(
     private val forecastIcon: ImageView = view.findViewById(R.id.forecast_icon)
 
     fun display(dailyForecast: DailyForecast) {
-        tempValue.text = formatTempOnDisplay(
-            dailyForecast.temp.max,
-            tempDisplaySettingManager.getPreferredUnit()
-        )
-        minTemp.text = formatTempOnDisplay(
-            dailyForecast.temp.min,
-            tempDisplaySettingManager.getPreferredUnit()
-        )
+        tempValue.text = unitDisplayManager.formatTemp(dailyForecast.temp.max)
+        minTemp.text = unitDisplayManager.formatTemp(dailyForecast.temp.min)
         tempDescription.text = dailyForecast.weather[0].description
         dailyDate.text = formatDate(dailyForecast.date)
 
@@ -44,12 +35,11 @@ class DailyForecastViewHolder(
 }
 
 class DailyForecastAdapter (
-    private val tempDisplaySettingManager: TempDisplaySettingManager,
+    private val unitDisplayManager: UnitDisplayManager,
     private val clickHandler: (DailyForecast) -> Unit
 ) : ListAdapter<DailyForecast, DailyForecastViewHolder>(
     DIFF_CONFIG
 ) {
-
     companion object {
         val DIFF_CONFIG = object: DiffUtil.ItemCallback<DailyForecast>() {
             override fun areItemsTheSame(oldItem: DailyForecast, newItem: DailyForecast): Boolean {
@@ -68,7 +58,7 @@ class DailyForecastAdapter (
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.daily_forecast_item, parent, false)
         return DailyForecastViewHolder(
             itemView,
-            tempDisplaySettingManager
+            unitDisplayManager
         )
     }
 
