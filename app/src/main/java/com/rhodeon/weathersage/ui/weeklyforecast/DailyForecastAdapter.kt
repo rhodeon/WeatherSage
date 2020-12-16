@@ -1,52 +1,47 @@
 package com.rhodeon.weathersage.ui.weeklyforecast
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.rhodeon.weathersage.R
 import com.rhodeon.weathersage.api.DailyForecast
+import com.rhodeon.weathersage.databinding.DailyForecastItemBinding
 import com.rhodeon.weathersage.utils.*
 
 class DailyForecastViewHolder(
-    view: View,
+    private val binding: DailyForecastItemBinding,
     private val unitDisplayManager: UnitDisplayManager
-) : RecyclerView.ViewHolder(view) {
-    private val tempValue: TextView = view.findViewById(R.id.temp_value)
-    private val minTemp: TextView = view.findViewById(R.id.min_temp_value)
-    private val tempDescription: TextView = view.findViewById(R.id.temp_description)
-    private val dailyDate: TextView = view.findViewById(R.id.daily_date)
-    private val forecastIcon: ImageView = view.findViewById(R.id.forecast_icon)
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun display(dailyForecast: DailyForecast) {
-        tempValue.text = unitDisplayManager.formatTemp(dailyForecast.temp.max)
-        minTemp.text = unitDisplayManager.formatTemp(dailyForecast.temp.min)
-        tempDescription.text = dailyForecast.weather[0].description
-        dailyDate.text = formatDate(dailyForecast.date)
+    fun bind(dailyForecast: DailyForecast) {
+        binding.tempValue.text = unitDisplayManager.formatTemp(dailyForecast.temp.max)
+        binding.minTempValue.text = unitDisplayManager.formatTemp(dailyForecast.temp.min)
+        binding.tempDescription.text = dailyForecast.weather[0].description
+        binding.dailyDate.text = formatDate(dailyForecast.date)
 
         val iconId: String = dailyForecast.weather[0].icon
-        forecastIcon.load(parseIconUrl(iconId))
+        binding.forecastIcon.load(parseIconUrl(iconId))
     }
 }
 
-class DailyForecastAdapter (
+class DailyForecastAdapter(
     private val unitDisplayManager: UnitDisplayManager,
     private val clickHandler: (DailyForecast) -> Unit
 ) : ListAdapter<DailyForecast, DailyForecastViewHolder>(
     DIFF_CONFIG
 ) {
     companion object {
-        val DIFF_CONFIG = object: DiffUtil.ItemCallback<DailyForecast>() {
+        val DIFF_CONFIG = object : DiffUtil.ItemCallback<DailyForecast>() {
             override fun areItemsTheSame(oldItem: DailyForecast, newItem: DailyForecast): Boolean {
                 return oldItem === newItem
             }
 
-            override fun areContentsTheSame(oldItem: DailyForecast, newItem: DailyForecast): Boolean {
+            override fun areContentsTheSame(
+                oldItem: DailyForecast,
+                newItem: DailyForecast
+            ): Boolean {
                 return oldItem == newItem
             }
 
@@ -55,18 +50,16 @@ class DailyForecastAdapter (
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyForecastViewHolder {
         // For creating a view holder from a view
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.daily_forecast_item, parent, false)
-        return DailyForecastViewHolder(
-            itemView,
-            unitDisplayManager
-        )
+        val binding =
+            DailyForecastItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return DailyForecastViewHolder(binding, unitDisplayManager)
     }
 
     override fun onBindViewHolder(holder: DailyForecastViewHolder, position: Int) {
         // For displaying data of view holder
         val currentForecast = getItem(position)
-        holder.display(currentForecast)
-        holder.itemView.setOnClickListener{
+        holder.bind(currentForecast)
+        holder.itemView.setOnClickListener {
             clickHandler(currentForecast)
         }
     }
