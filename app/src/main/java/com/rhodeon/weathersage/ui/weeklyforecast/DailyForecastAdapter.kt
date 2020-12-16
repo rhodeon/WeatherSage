@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rhodeon.weathersage.api.DailyForecast
 import com.rhodeon.weathersage.databinding.DailyForecastItemBinding
-import com.rhodeon.weathersage.utils.*
+import com.rhodeon.weathersage.utils.DiffCallbackDelegate
+import com.rhodeon.weathersage.utils.UnitDisplayManager
+import com.rhodeon.weathersage.utils.formatDate
+import com.rhodeon.weathersage.utils.parseIconUrl
 
 class DailyForecastViewHolder(
     private val binding: DailyForecastItemBinding,
@@ -33,19 +36,7 @@ class DailyForecastAdapter(
     DIFF_CONFIG
 ) {
     companion object {
-        val DIFF_CONFIG = object : DiffUtil.ItemCallback<DailyForecast>() {
-            override fun areItemsTheSame(oldItem: DailyForecast, newItem: DailyForecast): Boolean {
-                return oldItem === newItem
-            }
-
-            override fun areContentsTheSame(
-                oldItem: DailyForecast,
-                newItem: DailyForecast
-            ): Boolean {
-                return oldItem == newItem
-            }
-
-        }
+          val DIFF_CONFIG: DiffUtil.ItemCallback<DailyForecast> by DiffCallbackDelegate()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyForecastViewHolder {
