@@ -28,11 +28,10 @@ class WeeklyForecastFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentWeeklyForecastBinding.inflate(inflater, container, false)
         unitDisplayManager = UnitDisplayManager(requireContext())
-
         return binding.root
     }
 

@@ -1,6 +1,6 @@
 package com.rhodeon.weathersage.api
 
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -17,21 +17,19 @@ fun createOpenWeatherMapService() : OpenWeatherMapService {
 interface OpenWeatherMapService {
 //    Current Weather API request
     @GET("/data/2.5/weather")
-    fun currentWeatherByName (
+    suspend fun currentWeatherByName (
         @Query("q") location: String,
         @Query("units") unit: String,
         @Query("appid") apikey: String
-    ): Call<CurrentWeather>
+    ): Response<CurrentWeather>
 
 //    One Call API request
     @GET("/data/2.5/onecall")
-    fun weeklyWeather(
+    suspend fun weeklyWeather(
         @Query("lat") lat: Float,
         @Query("lon") lon :Float,
         @Query("appid") apikey: String,
         @Query("exclude") exclude: String,
         @Query("units") unit: String
-    ): Call<WeeklyForecast>
-
-
+    ): Response<WeeklyForecast>
 }

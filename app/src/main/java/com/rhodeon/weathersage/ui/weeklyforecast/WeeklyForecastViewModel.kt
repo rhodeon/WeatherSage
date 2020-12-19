@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rhodeon.weathersage.BuildConfig
-import com.rhodeon.weathersage.api.CurrentWeather
 import com.rhodeon.weathersage.api.WeeklyForecast
 import com.rhodeon.weathersage.api.createOpenWeatherMapService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class WeeklyForecastViewModel : ViewModel() {
     private val _viewState = MutableLiveData<WeeklyForecast>()
@@ -19,54 +19,67 @@ class WeeklyForecastViewModel : ViewModel() {
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    private val viewModelJob = Job()
+    val requestScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     fun loadWeeklyForecastsByName(cityName: String, countryCode: String, unit: String) {
+
         // Load weeklyForecast with daily forecast data
         // Obtain long and lat from current weather data
-        val fullLocation = cityName + "," + countryCode
-        val call = createOpenWeatherMapService().currentWeatherByName(fullLocation, unit, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
-        call.enqueue(object: Callback<CurrentWeather> {
-            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
-                Log.e(WeeklyForecastViewModel::class.java.simpleName, "Error Loading Current Weather", t)
-            }
+        val fullLocation = "$cityName,$countryCode"
 
-            override fun onResponse(call: Call<CurrentWeather>, response: Response<CurrentWeather>) {
-                val weatherResponse = response.body()
+        requestScope.launch {
+            try {
+                val response = createOpenWeatherMapService().currentWeatherByName(
+                    fullLocation,
+                    unit,
+                    BuildConfig.OPEN_WEATHER_MAP_API_KEY
+                )
 
-                if (weatherResponse != null) {
+                val currentResponse = response.body()
+                if (currentResponse != null) {
                     // Use long and lat as queries to get weekly forecast
-                    val call = createOpenWeatherMapService().weeklyWeather(
-                        lat = weatherResponse.coord.lat,
-                        lon = weatherResponse.coord.lon,
-                        apikey = BuildConfig.OPEN_WEATHER_MAP_API_KEY,
-                        exclude = "current,minutely,hourly",
-                        unit = unit
+                    try {
+                        val call = createOpenWeatherMapService().weeklyWeather(
+                            lat = currentResponse.coord.lat,
+                            lon = currentResponse.coord.lon,
+                            apikey = BuildConfig.OPEN_WEATHER_MAP_API_KEY,
+                            exclude = "current,minutely,hourly",
+                            unit = unit
+                        )
 
-                    )
+                        val weeklyWeatherResponse = call.body()
 
-                    call.enqueue(object: Callback<WeeklyForecast> {
-                        override fun onFailure(call: Call<WeeklyForecast>, t: Throwable) {
-                            Log.e(WeeklyForecastViewModel::class.java.simpleName, "Error loading weekly forecast", t)
+                        if (weeklyWeatherResponse != null) {
+                            _viewState.value = weeklyWeatherResponse
                         }
 
-                        override fun onResponse(
-                            call: Call<WeeklyForecast>, response: Response<WeeklyForecast>
-                        ) {
-                            val weeklyWeatherResponse = response.body()
+                    } catch (t: Throwable) {
+                        Log.e(
+                            WeeklyForecastViewModel::class.java.simpleName,
+                            "Error Loading Weekly Forecast: ${t.message}"
+                        )
 
-                            if (weeklyWeatherResponse != null) {
-                                _viewState.value = weeklyWeatherResponse
-                            }
-                        }
-                    })
-                }
+                    }
 
-                else {  // On an error response
+                } else {  // On an error response
                     when (response.code()) {
                         404 -> _message.value = "City not found"
                         else -> _message.value = "Error Loading Current Weather"
                     }
                 }
+
+            } catch (t: Throwable) {
+                Log.e(
+                    WeeklyForecastViewModel::class.java.simpleName,
+                    "Error Loading Current Weather: ${t.message}"
+                )
             }
-        })
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.complete()
     }
 }
