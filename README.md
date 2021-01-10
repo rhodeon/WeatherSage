@@ -1,5 +1,7 @@
 # WeatherSage
 Weather forecast app for Android.
+<br>
+Makes use of OpenWeatherMap APIs to fetch current and weekly weather data.
 
 <br>
 
